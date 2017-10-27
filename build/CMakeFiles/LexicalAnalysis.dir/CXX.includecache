@@ -15,10 +15,18 @@ map
 -
 ctype.h
 -
+string
+-
+list
+-
+unordered_set
+-
 lexanalyzer.h
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
+string
+-
 
 /home/vlad/programs_new/Lexical analysis/src/main.cpp
 iostream
