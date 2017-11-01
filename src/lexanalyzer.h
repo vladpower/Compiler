@@ -1,6 +1,7 @@
 #ifndef LEXANALYZER_H
 #define LEXANALYZER_H
 #include <string>
+#include <vector>
 enum Symbol_type {
     digit, // 0..9
     letter, // a..z _
@@ -16,6 +17,7 @@ enum States {
     wrong_st,
     empty_st,
     number_st,
+    number_e_st,
     word_st,
     comparison_st, // == != > <
     logic_st, // && ||
@@ -27,13 +29,11 @@ enum Number_symbol_type {
     digit_num,
     dot_num,
     e_num,
-    plus_num,
-    minus_num
+    arifm_num
 };
 
 enum Number_states {
     empty_nst,
-    minus_nst,
     dot_nst,
     int_nst,
     fraction_nst,
@@ -58,16 +58,24 @@ enum Keys {
     bool_key,
     int_key,
     double_key,
-    true_key,
+    true_key = 101,
     false_key
 };
 
-enum Lex_class {
-    id_class,
-    int_class,
-    float_class,
-    bool_class,
-    logic_class
+enum Token_type {
+    space_type,
+    wrong_type,
+    id_type,
+    reserved_type,
+    assign_type,
+    unary_type,
+    arifm_op_type,
+    logic_op_type,
+    comp_op_type,
+    separator_type,
+    int_type,
+    float_type,
+    bool_type
 };
 
 struct Keyword {
@@ -97,6 +105,7 @@ struct Lexem {
 struct State_machine {
     State_machine(int state_num,int smb_num);
     void add_branch(int old_state, int smb, int next_state, Act call_back);
+    //void add_non_final_state(int state);
     ~State_machine();
     int state_num;
     int smb_num;
@@ -106,13 +115,32 @@ struct State_machine {
 
 
 
+struct Lex_attributes {
+    Lex_attributes(int s_num, std::string token, Token_type token_type);
+    int s_num;
+    std::string token;
+    Token_type token_type;
+
+
+};
+
+struct State {
+    char main_state = empty_st;
+    char num_state = empty_nst;
+    int s_num = 1;
+};
+
+
+
 int analyze(char* fname);
-int recognize(Symbol& smb);
+int recognize(Symbol& smb, std::vector<Lex_attributes> &recognized_lexs);
+int recognize_num(Symbol smb, State& current_state);
+Number_symbol_type get_num_symol_type(char ch);
 void init_state_machines();
 void init_main_machine();
 void init_number_machine();
 void init_hash_table();
 void add_hash(std::string word, Keys key);
-void categorize(std::string str, char state);
+Token_type categorize(std::string str, State& state);
 int find_key_word(std::string word);
 #endif

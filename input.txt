@@ -1,4 +1,4 @@
-bool one = 1;
+bool one = true;
 double three=3.0;
 int four;
 four=one+three;

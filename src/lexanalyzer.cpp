@@ -6,6 +6,7 @@
 #include <list>
 #include <unordered_set>
 #include "lexanalyzer.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -14,14 +15,63 @@ int analyze(char* fname)
     ifstream fin;
     fin.open (fname);
     char ch;
+    vector<Lex_attributes> recognized_lexs;
     init_state_machines();
     init_hash_table();
     while (fin >> noskipws >> ch) {
         Symbol smb(ch);
-        recognize(smb);
-
-
+        if(recognize(smb, recognized_lexs) < 0) {
+            cerr << "Invalid character "<< smb.ch << endl;
+        }
     }
+
+    for(vector<Lex_attributes>::iterator it = recognized_lexs.begin();it != recognized_lexs.end();it++) {
+        cout<<it->s_num<<'\t'<<it->token<<'\t';
+        switch (it->token_type) {
+            case id_type: {
+                cout<<"identifier";
+            }
+            break;
+            case reserved_type: {
+                cout<<"reserved word";
+            }
+            break;
+            case assign_type: {
+                cout<<"reserved word";
+            }
+            break;
+            case arifm_op_type: {
+                cout<<"arifmetic operation";
+            }
+            break;
+            case logic_op_type: {
+                cout<<"logic operation";
+            }
+            break;
+            case comp_op_type: {
+                cout<<"comparison operation";
+            }
+            break;
+            case separator_type: {
+                cout<<"separator";
+            }
+            break;
+            case int_type: {
+                cout<<"integer constant";
+            }
+            break;
+            case float_type: {
+                cout<<"float constant";
+            }
+            break;
+            case bool_type: {
+                cout<<"bool constant";
+            }
+            break;
+        }
+        cout<<endl;
+    }
+
     fin.close();
     return 0;
 }
@@ -33,7 +83,7 @@ void init_state_machines()
     init_number_machine();
 }
 
-State_machine main_machine(9,8);
+State_machine main_machine(10,8);
 void init_main_machine()
 {
     main_machine.add_branch(empty_st, digit, number_st,number_act);
@@ -45,7 +95,9 @@ void init_main_machine()
     main_machine.add_branch(empty_st, separator, separator_st,nil);
     main_machine.add_branch(empty_st, wrong_symb, empty_st,nil);
     main_machine.add_branch(number_st, digit, number_st,number_act);
-    main_machine.add_branch(number_st, letter, number_st,number_act);
+    main_machine.add_branch(number_st, letter, number_e_st,number_act);
+    main_machine.add_branch(number_e_st, digit, number_e_st,number_act);
+    main_machine.add_branch(number_e_st, math, number_e_st,number_act);
     main_machine.add_branch(word_st, digit, word_st,nil);
     main_machine.add_branch(word_st, letter, word_st,nil);
     main_machine.add_branch(comparison_st, comparison, comparison_st,nil);
@@ -53,72 +105,140 @@ void init_main_machine()
     main_machine.add_branch(math_st, math, math_st,nil);
 }
 
-State_machine number_machine(8,5);
+State_machine number_machine(7,4);
 void init_number_machine()
 {
-    number_machine.add_branch(empty_nst, minus_num, minus_nst,nil);
     number_machine.add_branch(empty_nst, digit_num, int_nst,nil);
     number_machine.add_branch(empty_nst, dot_num, dot_nst,nil);
-    number_machine.add_branch(minus_nst, digit_num, int_nst,nil);
-    number_machine.add_branch(minus_nst, dot_num, dot_nst,nil);
     number_machine.add_branch(int_nst, digit_num, int_nst,nil);
     number_machine.add_branch(int_nst, dot_num, dot_nst,nil);
     number_machine.add_branch(dot_nst, digit_num, fraction_nst,nil);
     number_machine.add_branch(fraction_nst, digit_num, fraction_nst,nil);
     number_machine.add_branch(fraction_nst, e_num, e_nst,nil);
-    number_machine.add_branch(e_nst, plus_num, sign_nst,nil);
-    number_machine.add_branch(e_nst, minus_num, sign_nst,nil);
+    number_machine.add_branch(e_nst, arifm_num, sign_nst,nil);
     number_machine.add_branch(sign_nst, digit_num, order_nst,nil);
+    number_machine.add_branch(order_nst, digit_num, order_nst,nil);
 }
 
-
-
-int recognize(Symbol& smb)
+int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
 {
-    static char current_state = empty_st;
+    static State current_state;
     static string val;
-    State_act  state_act = main_machine.transitions[current_state][smb.type];
-
-
+    if(smb.type == wrong_symb)
+        return -1;
+    State_act  state_act = main_machine.transitions[current_state.main_state][smb.type];
     switch(state_act.act) {
         case number_act: {
+            if(recognize_num(smb.ch, current_state) < 0) {
+                return -1;
+            }
 
         }
         break;
         case end_act: {
+            Token_type token_type = categorize(val, current_state);
+            switch(token_type) {
+                case space_type: {
 
-            categorize(val,current_state);
+                }
+                break;
+                case wrong_type: {
+                    return -1;
+                }
+                break;
+                default: {
+                    recognized_lexs.push_back(Lex_attributes(current_state.s_num,val,token_type));
+                }
+            }
 
             val.clear();
-            current_state = state_act.next;
-            recognize(smb);
+            current_state.main_state = state_act.next;
+            recognize(smb, recognized_lexs);
             return 0;
         }
         break;
     }
     val+=smb.ch;
-    current_state = state_act.next;
+    current_state.main_state = state_act.next;
 
     return 0;
 }
 
-void categorize(string str, char state)
+int recognize_num(Symbol smb, State& current_state)
 {
-    switch(state) {
+        Number_symbol_type type_symbol = get_num_symol_type(smb.ch);
+        State_act  state_act = number_machine.transitions[current_state.num_state][type_symbol];
+        if(state_act.act == end_act) {
+            return -1;
+        }
+        current_state.num_state = state_act.next;
+
+}
+
+Number_symbol_type get_num_symol_type(char ch)
+{
+    if(ch == '.')
+        return dot_num;
+    if(isdigit(ch))
+        return digit_num;
+    if(toupper(ch) == 'E')
+        return e_num;
+    if(ch == '+' || ch == '-') {
+        return arifm_num;
+    }
+
+}
+
+Token_type categorize(string str, State& state)
+{
+    switch(state.main_state) {
         case word_st: {
             int key = find_key_word(str);
-            if(key>0) {
-                cout<<"keyword "<<str<<' '<<key<<endl;
+            if(key>=true_key) {
+                return bool_type;
+            } else if(key>=if_key) {
+                return reserved_type;
+            } else {
+                return id_type;
             }
         }
         break;
         case separator_st: {
-            if(str == " " || str == "\n") {
-                return;
+            if(str == "\n") {
+                state.s_num++;
+                return space_type;
+            }
+            if(str == " ") {
+                return space_type;
+            }
+            return separator_type;
+        }
+        case number_st: {
+            int num_state = state.num_state;
+            state.num_state = empty_nst;
+            switch (num_state) {
+                case int_nst: {
+                    return int_type;
+                }
+                case fraction_nst: {
+                    return float_type;
+                }
+                default: {
+                    return wrong_type;
+                }
             }
         }
+        case number_e_st: {
+            if(state.num_state == order_nst) {
+                return float_type;
+            } else {
+                return wrong_type;
+            }
+        }
+        default: {
+            return space_type;
+        }
     }
-    cout<<str <<" "<< (int)state <<endl;
 }
 
 list<Keyword> key_words[10];
@@ -156,7 +276,7 @@ int find_key_word(string word)
     return 0;
 }
 
-Symbol::Symbol(char c) {
+Symbol::Symbol(char c) { // transliterator
     ch = c;
     static map<char,Symbol_type> defenition = {
         {'.',digit},
@@ -218,9 +338,23 @@ void State_machine::add_branch(int old_state, int smb, int next_state, Act call_
     transitions[old_state][smb] = State_act(next_state,call_back);
 }
 
+// void State_machine::add_non_final_state(int state)
+// {
+//     for(int i =0;i<smb_num;i++) {
+//         if(transitions[state][i].act == end_act)
+//             transitions[state][i].act = invalid_act;
+//     }
+// }
+
 State_machine::~State_machine()
 {
     for(int i=0;i<state_num;i++)
         delete transitions[i];
     delete transitions;
+}
+
+Lex_attributes::Lex_attributes(int s_num, std::string token, Token_type token_type) {
+    this->s_num = s_num;
+    this-> token = token;
+    this->token_type = token_type;
 }
