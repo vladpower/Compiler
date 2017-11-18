@@ -594,14 +594,6 @@ void State_machine::add_branch(int old_state, int smb, int next_state, Act call_
     transitions[old_state][smb] = State_act(next_state,call_back);
 }
 
-// void State_machine::add_non_final_state(int state)
-// {
-//     for(int i =0;i<smb_num;i++) {
-//         if(transitions[state][i].act == end_act)
-//             transitions[state][i].act = inbufid_act;
-//     }
-// }
-
 State_machine::~State_machine()
 {
     for(int i=0;i<state_num;i++)
