@@ -15,6 +15,7 @@ enum Symbol_type {
 enum States {
     end_st,
     wrong_st,
+    comment_st,
     empty_st,
     number_st,
     number_e_st,
@@ -47,7 +48,11 @@ enum Operation_symbol_type {
     minus_op, // -
     exp_op, // !
     equal_op, // =
-    comp_op // < >
+    comp_op, // < >
+    slash_op, // /
+    star_op, // *
+    ampersand_op, // &
+    stick_op // |
 };
 
 enum Operation_state {
@@ -59,7 +64,16 @@ enum Operation_state {
     minus_minus_ost,
     exp_sign_ost,
     one_sign_comp_ost,
-    two_sign_comp_ost
+    two_sign_comp_ost,
+    ampersand_ost,
+    stick_ost,
+    two_ampersand_ost,
+    two_stick_ost,
+    slash_ost,
+    two_slash_ost,
+    star_ost,
+    comment_open_ost,
+    comment_close_ost;
 
 };
 

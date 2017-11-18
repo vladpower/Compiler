@@ -36,6 +36,10 @@ int analyze(char* fname)
                 cout<<"reserved word";
             }
             break;
+            case unary_type: {
+                cout<<"unary type";
+            }
+            break;
             case assign_type: {
                 cout<<"assign operation";
             }
@@ -81,6 +85,7 @@ void init_state_machines()
 {
     init_main_machine();
     init_number_machine();
+    init_operation_machine();
 }
 
 State_machine main_machine(10,8);
@@ -88,10 +93,10 @@ void init_main_machine()
 {
     main_machine.add_branch(empty_st, digit, number_st,number_act);
     main_machine.add_branch(empty_st, letter, word_st,nil);
-    main_machine.add_branch(empty_st, comment, empty_st,nil);
+    main_machine.add_branch(empty_st, comment, empty_st, operation_act);
     main_machine.add_branch(empty_st, comparison, comparison_st,operation_act);
-    main_machine.add_branch(empty_st, logic, logic_st,nil);
-    main_machine.add_branch(empty_st, math, math_st,nil);
+    main_machine.add_branch(empty_st, logic, logic_st,operation_act);
+    main_machine.add_branch(empty_st, math, math_st,operation_act);
     main_machine.add_branch(empty_st, separator, separator_st,nil);
     main_machine.add_branch(empty_st, wrong_symb, empty_st,nil);
     main_machine.add_branch(number_st, digit, number_st,number_act);
@@ -101,7 +106,7 @@ void init_main_machine()
     main_machine.add_branch(word_st, digit, word_st,nil);
     main_machine.add_branch(word_st, letter, word_st,nil);
     main_machine.add_branch(comparison_st, comparison, comparison_st,operation_act);
-    main_machine.add_branch(logic_st, logic, logic_st,nil);
+    main_machine.add_branch(logic_st, logic, logic_st,operation_act);
     main_machine.add_branch(math_st, math, math_st,operation_act);
     main_machine.add_branch(math_st, comparison, comparison_st,operation_act);
 }
@@ -129,11 +134,20 @@ void init_operation_machine()
     operation_machine.add_branch(empty_ost,exp_op,exp_sign_ost,nil);
     operation_machine.add_branch(empty_ost,equal_op,assign_ost,nil);
     operation_machine.add_branch(empty_ost,comp_op,one_sign_comp_ost,nil);
+    operation_machine.add_branch(empty_ost,ampersand_op,ampersand_ost,nil);
+    operation_machine.add_branch(empty_ost,stick_op,stick_ost,nil);
+    operation_machine.add_branch(empty_ost,slash_op,slash_ost,nil);
+    operation_machine.add_branch(empty_ost,star_op,star_ost,nil);
     operation_machine.add_branch(plus_ost,plus_op,plus_plus_ost,nil);
     operation_machine.add_branch(minus_ost,minus_op,minus_minus_ost,nil);
     operation_machine.add_branch(exp_sign_ost,equal_op,two_sign_comp_ost,nil);
     operation_machine.add_branch(assign_ost,equal_op,two_sign_comp_ost,nil);
     operation_machine.add_branch(one_sign_comp_ost,equal_op,two_sign_comp_ost,nil);
+    operation_machine.add_branch(ampersand_ost,ampersand_op,two_ampersand_ost,nil);
+    operation_machine.add_branch(stick_ost,stick_op,two_stick_ost,nil);
+    operation_machine.add_branch(slash_ost,slash_op,two_slash_ost,nil);
+    operation_machine.add_branch(slash_ost,star_op,comment_open_ost,nil);
+    operation_machine.add_branch(star_ost,slash_op,comment_close_ost,nil);
 }
 
 int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
@@ -148,7 +162,6 @@ int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
             if(recognize_num(smb.ch, current_state) < 0) {
                 return -1;
             }
-
         }
         break;
         case operation_act: {
@@ -202,6 +215,7 @@ int recognize_op(Symbol smb, State& current_state)
     Operation_symbol_type type_symbol = get_op_symol_type(smb.ch);
     State_act state_act = operation_machine.transitions[current_state.op_state][type_symbol];
     if(state_act.act == end_act) {
+        //cout<<"ERR "<<type_symbol<<' '<<smb.ch<<' '<<(int)current_state.op_state<<endl;
         return -1;
     }
     current_state.op_state = state_act.next;
@@ -239,6 +253,18 @@ Operation_symbol_type get_op_symol_type(char ch)
         case '<':
         case '>': {
             return comp_op;
+        }
+        case '&': {
+            return ampersand_op;
+        }
+        case '|': {
+            return stick_op;
+        }
+        case '/': {
+            return slash_op;
+        }
+        case '*': {
+            return star_op;
         }
     }
 }
@@ -291,7 +317,9 @@ Token_type categorize(string str, State& state)
         }
         case comparison_st:
         case math_st: {
-            switch (state.op_state) {
+           int op_state = state.op_state;
+           state.op_state = empty_nst;
+           switch (op_state) {
               case assign_ost: {
                   return assign_type;
               }
