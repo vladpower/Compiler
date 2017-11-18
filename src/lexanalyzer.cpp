@@ -37,7 +37,7 @@ int analyze(char* fname)
             }
             break;
             case assign_type: {
-                cout<<"reserved word";
+                cout<<"assign operation";
             }
             break;
             case arifm_op_type: {
@@ -89,7 +89,7 @@ void init_main_machine()
     main_machine.add_branch(empty_st, digit, number_st,number_act);
     main_machine.add_branch(empty_st, letter, word_st,nil);
     main_machine.add_branch(empty_st, comment, empty_st,nil);
-    main_machine.add_branch(empty_st, comparison, comparison_st,nil);
+    main_machine.add_branch(empty_st, comparison, comparison_st,operation_act);
     main_machine.add_branch(empty_st, logic, logic_st,nil);
     main_machine.add_branch(empty_st, math, math_st,nil);
     main_machine.add_branch(empty_st, separator, separator_st,nil);
@@ -100,9 +100,10 @@ void init_main_machine()
     main_machine.add_branch(number_e_st, math, number_e_st,number_act);
     main_machine.add_branch(word_st, digit, word_st,nil);
     main_machine.add_branch(word_st, letter, word_st,nil);
-    main_machine.add_branch(comparison_st, comparison, comparison_st,nil);
+    main_machine.add_branch(comparison_st, comparison, comparison_st,operation_act);
     main_machine.add_branch(logic_st, logic, logic_st,nil);
-    main_machine.add_branch(math_st, math, math_st,nil);
+    main_machine.add_branch(math_st, math, math_st,operation_act);
+    main_machine.add_branch(math_st, comparison, comparison_st,operation_act);
 }
 
 State_machine number_machine(7,4);
@@ -120,6 +121,21 @@ void init_number_machine()
     number_machine.add_branch(order_nst, digit_num, order_nst,nil);
 }
 
+State_machine operation_machine(9,5);
+void init_operation_machine()
+{
+    operation_machine.add_branch(empty_ost,plus_op,plus_ost,nil);
+    operation_machine.add_branch(empty_ost,minus_op,minus_ost,nil);
+    operation_machine.add_branch(empty_ost,exp_op,exp_sign_ost,nil);
+    operation_machine.add_branch(empty_ost,equal_op,assign_ost,nil);
+    operation_machine.add_branch(empty_ost,comp_op,one_sign_comp_ost,nil);
+    operation_machine.add_branch(plus_ost,plus_op,plus_plus_ost,nil);
+    operation_machine.add_branch(minus_ost,minus_op,minus_minus_ost,nil);
+    operation_machine.add_branch(exp_sign_ost,equal_op,two_sign_comp_ost,nil);
+    operation_machine.add_branch(assign_ost,equal_op,two_sign_comp_ost,nil);
+    operation_machine.add_branch(one_sign_comp_ost,equal_op,two_sign_comp_ost,nil);
+}
+
 int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
 {
     static State current_state;
@@ -133,6 +149,12 @@ int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
                 return -1;
             }
 
+        }
+        break;
+        case operation_act: {
+            if(recognize_op(smb.ch, current_state) < 0) {
+                return -1;
+            }
         }
         break;
         case end_act: {
@@ -166,12 +188,23 @@ int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
 
 int recognize_num(Symbol smb, State& current_state)
 {
-        Number_symbol_type type_symbol = get_num_symol_type(smb.ch);
-        State_act  state_act = number_machine.transitions[current_state.num_state][type_symbol];
-        if(state_act.act == end_act) {
-            return -1;
-        }
-        current_state.num_state = state_act.next;
+      Number_symbol_type type_symbol = get_num_symol_type(smb.ch);
+      State_act  state_act = number_machine.transitions[current_state.num_state][type_symbol];
+      if(state_act.act == end_act) {
+          return -1;
+      }
+      current_state.num_state = state_act.next;
+
+}
+
+int recognize_op(Symbol smb, State& current_state)
+{
+    Operation_symbol_type type_symbol = get_op_symol_type(smb.ch);
+    State_act state_act = operation_machine.transitions[current_state.op_state][type_symbol];
+    if(state_act.act == end_act) {
+        return -1;
+    }
+    current_state.op_state = state_act.next;
 
 }
 
@@ -186,7 +219,28 @@ Number_symbol_type get_num_symol_type(char ch)
     if(ch == '+' || ch == '-') {
         return arifm_num;
     }
+}
 
+Operation_symbol_type get_op_symol_type(char ch)
+{
+    switch(ch) {
+        case '+': {
+            return plus_op;
+        }
+        case '-': {
+            return minus_op;
+        }
+        case '!': {
+            return exp_op;
+        }
+        case '=': {
+            return equal_op;
+        }
+        case '<':
+        case '>': {
+            return comp_op;
+        }
+    }
 }
 
 Token_type categorize(string str, State& state)
@@ -233,6 +287,35 @@ Token_type categorize(string str, State& state)
                 return float_type;
             } else {
                 return wrong_type;
+            }
+        }
+        case comparison_st:
+        case math_st: {
+            switch (state.op_state) {
+              case assign_ost: {
+                  return assign_type;
+              }
+              case plus_ost: {
+                  return arifm_op_type;
+              }
+              case minus_ost: {
+                  return arifm_op_type;
+              }
+              case plus_plus_ost: {
+                  return unary_type;
+              }
+              case minus_minus_ost: {
+                  return unary_type;
+              }
+              case exp_sign_ost: {
+                  return unary_type;
+              }
+              case one_sign_comp_ost: {
+                  return comp_op_type;
+              }
+              case two_sign_comp_ost: {
+                  return comp_op_type;
+              }
             }
         }
         default: {
@@ -282,10 +365,10 @@ Symbol::Symbol(char c) { // transliterator
         {'.',digit},
         {'/',comment},
         {'*',comment},
-        {'=',comparison},
+        {'=',math},
         {'<',comparison},
         {'>',comparison},
-        {'!',comparison},
+        {'!',math},
         {'&',logic},
         {'|',logic},
         {'+',math},

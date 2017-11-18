@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o"
   "CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o"
+  "CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o"
   "LexicalAnalysis.pdb"
   "LexicalAnalysis"
 )

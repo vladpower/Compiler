@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/vlad/programs_new/Lexical analysis/build" -I"/home/vlad/programs_new/Lexical analysis" -I"/home/vlad/programs_new/Lexical analysis/src" 
+CXX_INCLUDES = -I/home/mrmischief/Progs/Lexical-analyzer/build -I/home/mrmischief/Progs/Lexical-analyzer -I/home/mrmischief/Progs/Lexical-analyzer/src 
 

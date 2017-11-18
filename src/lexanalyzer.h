@@ -6,9 +6,9 @@ enum Symbol_type {
     digit, // 0..9
     letter, // a..z _
     comment, // / *
-    comparison, // = < > !
+    comparison, // < >
     logic, // & |
-    math, // + -
+    math, // + - = !
     separator, // , ; ( ) { } \n
     wrong_symb
 };
@@ -42,9 +42,31 @@ enum Number_states {
     order_nst
 };
 
+enum Operation_symbol_type {
+    plus_op, // +
+    minus_op, // -
+    exp_op, // !
+    equal_op, // =
+    comp_op // < >
+};
+
+enum Operation_state {
+    empty_ost,
+    assign_ost,
+    plus_ost,
+    minus_ost,
+    plus_plus_ost,
+    minus_minus_ost,
+    exp_sign_ost,
+    one_sign_comp_ost,
+    two_sign_comp_ost
+
+};
+
 enum Act{
     nil,
     number_act,
+    operation_act,
     end_act
 };
 
@@ -127,6 +149,7 @@ struct Lex_attributes {
 struct State {
     char main_state = empty_st;
     char num_state = empty_nst;
+    char op_state = empty_ost;
     int s_num = 1;
 };
 
@@ -135,10 +158,13 @@ struct State {
 int analyze(char* fname);
 int recognize(Symbol& smb, std::vector<Lex_attributes> &recognized_lexs);
 int recognize_num(Symbol smb, State& current_state);
+int recognize_op(Symbol smb, State& current_state);
 Number_symbol_type get_num_symol_type(char ch);
+Operation_symbol_type get_op_symol_type(char ch);
 void init_state_machines();
 void init_main_machine();
 void init_number_machine();
+void init_operation_machine();
 void init_hash_table();
 void add_hash(std::string word, Keys key);
 Token_type categorize(std::string str, State& state);
