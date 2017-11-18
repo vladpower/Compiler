@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mrmischief/Progs/Lexical-analyzer
+CMAKE_SOURCE_DIR = "/home/vlad/programs_new/Lexical analysis"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mrmischief/Progs/Lexical-analyzer/build
+CMAKE_BINARY_DIR = "/home/vlad/programs_new/Lexical analysis/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/LexicalAnalysis.dir/depend.make
@@ -57,42 +57,18 @@ include CMakeFiles/LexicalAnalysis.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/LexicalAnalysis.dir/flags.make
 
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: CMakeFiles/LexicalAnalysis.dir/flags.make
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o -c /home/mrmischief/Progs/Lexical-analyzer/src/main.cpp
-
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mrmischief/Progs/Lexical-analyzer/src/main.cpp > CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i
-
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mrmischief/Progs/Lexical-analyzer/src/main.cpp -o CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s
-
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires:
-
-.PHONY : CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
-
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides.build
-.PHONY : CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides
-
-CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides.build: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
-
-
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o: CMakeFiles/LexicalAnalysis.dir/flags.make
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o: ../src/lexanalyzer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o -c /home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/vlad/programs_new/Lexical analysis/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o -c "/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.cpp"
 
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.cpp > CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.cpp" > CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.i
 
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.cpp -o CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.cpp" -o CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.s
 
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o.requires:
 
@@ -105,19 +81,43 @@ CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o.provides: CMakeFiles/Lexica
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o.provides.build: CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o
 
 
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: CMakeFiles/LexicalAnalysis.dir/flags.make
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: ../src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/vlad/programs_new/Lexical analysis/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o -c "/home/vlad/programs_new/Lexical analysis/src/main.cpp"
+
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/vlad/programs_new/Lexical analysis/src/main.cpp" > CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i
+
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/vlad/programs_new/Lexical analysis/src/main.cpp" -o CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s
+
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires:
+
+.PHONY : CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
+
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides.build
+.PHONY : CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides
+
+CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.provides.build: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
+
+
 # Object files for target LexicalAnalysis
 LexicalAnalysis_OBJECTS = \
-"CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o" \
-"CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o"
+"CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o" \
+"CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o"
 
 # External object files for target LexicalAnalysis
 LexicalAnalysis_EXTERNAL_OBJECTS =
 
-LexicalAnalysis: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
 LexicalAnalysis: CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o
+LexicalAnalysis: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
 LexicalAnalysis: CMakeFiles/LexicalAnalysis.dir/build.make
 LexicalAnalysis: CMakeFiles/LexicalAnalysis.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable LexicalAnalysis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/vlad/programs_new/Lexical analysis/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable LexicalAnalysis"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LexicalAnalysis.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,8 +125,8 @@ CMakeFiles/LexicalAnalysis.dir/build: LexicalAnalysis
 
 .PHONY : CMakeFiles/LexicalAnalysis.dir/build
 
-CMakeFiles/LexicalAnalysis.dir/requires: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
 CMakeFiles/LexicalAnalysis.dir/requires: CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o.requires
+CMakeFiles/LexicalAnalysis.dir/requires: CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o.requires
 
 .PHONY : CMakeFiles/LexicalAnalysis.dir/requires
 
@@ -135,6 +135,6 @@ CMakeFiles/LexicalAnalysis.dir/clean:
 .PHONY : CMakeFiles/LexicalAnalysis.dir/clean
 
 CMakeFiles/LexicalAnalysis.dir/depend:
-	cd /home/mrmischief/Progs/Lexical-analyzer/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mrmischief/Progs/Lexical-analyzer /home/mrmischief/Progs/Lexical-analyzer /home/mrmischief/Progs/Lexical-analyzer/build /home/mrmischief/Progs/Lexical-analyzer/build /home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/LexicalAnalysis.dir/DependInfo.cmake --color=$(COLOR)
+	cd "/home/vlad/programs_new/Lexical analysis/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/vlad/programs_new/Lexical analysis" "/home/vlad/programs_new/Lexical analysis" "/home/vlad/programs_new/Lexical analysis/build" "/home/vlad/programs_new/Lexical analysis/build" "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/LexicalAnalysis.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/LexicalAnalysis.dir/depend
 

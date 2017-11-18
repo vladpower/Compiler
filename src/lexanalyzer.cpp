@@ -73,7 +73,13 @@ int analyze(char* fname)
             }
             break;
         }
-        cout<<endl;
+        cout<<'\t';
+        if(it->token_type == float_type) {
+            cout << it->value.d;
+        } else {
+            cout << it->value.i;
+        }
+        cout << endl;
     }
 
     fin.close();
@@ -88,12 +94,13 @@ void init_state_machines()
     init_operation_machine();
 }
 
-State_machine main_machine(10,8);
+State_machine main_machine(number_of_states,number_of_symtype, end_act);
 void init_main_machine()
 {
     main_machine.add_branch(empty_st, digit, number_st,number_act);
     main_machine.add_branch(empty_st, letter, word_st,nil);
-    main_machine.add_branch(empty_st, comment, empty_st, operation_act);
+    main_machine.add_branch(empty_st, comment, comment_st, operation_act);
+    main_machine.add_branch(comment_st, comment, comment_st, operation_act);
     main_machine.add_branch(empty_st, comparison, comparison_st,operation_act);
     main_machine.add_branch(empty_st, logic, logic_st,operation_act);
     main_machine.add_branch(empty_st, math, math_st,operation_act);
@@ -111,7 +118,7 @@ void init_main_machine()
     main_machine.add_branch(math_st, comparison, comparison_st,operation_act);
 }
 
-State_machine number_machine(7,4);
+State_machine number_machine(number_of_numstates,number_of_numsymtype, wrong_act);
 void init_number_machine()
 {
     number_machine.add_branch(empty_nst, digit_num, int_nst,nil);
@@ -126,36 +133,44 @@ void init_number_machine()
     number_machine.add_branch(order_nst, digit_num, order_nst,nil);
 }
 
-State_machine operation_machine(9,5);
+State_machine operation_machine(number_of_opstates,number_of_opsymtype, wrong_act);
 void init_operation_machine()
 {
     operation_machine.add_branch(empty_ost,plus_op,plus_ost,nil);
     operation_machine.add_branch(empty_ost,minus_op,minus_ost,nil);
-    operation_machine.add_branch(empty_ost,exp_op,exp_sign_ost,nil);
+    operation_machine.add_branch(empty_ost,exclamation_op,exclamation_ost,nil);
     operation_machine.add_branch(empty_ost,equal_op,assign_ost,nil);
     operation_machine.add_branch(empty_ost,comp_op,one_sign_comp_ost,nil);
     operation_machine.add_branch(empty_ost,ampersand_op,ampersand_ost,nil);
     operation_machine.add_branch(empty_ost,stick_op,stick_ost,nil);
     operation_machine.add_branch(empty_ost,slash_op,slash_ost,nil);
-    operation_machine.add_branch(empty_ost,star_op,star_ost,nil);
+    operation_machine.add_branch(empty_ost,asterisk_op,asterisk_ost,nil);
     operation_machine.add_branch(plus_ost,plus_op,plus_plus_ost,nil);
     operation_machine.add_branch(minus_ost,minus_op,minus_minus_ost,nil);
-    operation_machine.add_branch(exp_sign_ost,equal_op,two_sign_comp_ost,nil);
+    operation_machine.add_branch(exclamation_ost,equal_op,two_sign_comp_ost,nil);
     operation_machine.add_branch(assign_ost,equal_op,two_sign_comp_ost,nil);
     operation_machine.add_branch(one_sign_comp_ost,equal_op,two_sign_comp_ost,nil);
     operation_machine.add_branch(ampersand_ost,ampersand_op,two_ampersand_ost,nil);
     operation_machine.add_branch(stick_ost,stick_op,two_stick_ost,nil);
-    operation_machine.add_branch(slash_ost,slash_op,two_slash_ost,nil);
-    operation_machine.add_branch(slash_ost,star_op,comment_open_ost,nil);
-    operation_machine.add_branch(star_ost,slash_op,comment_close_ost,nil);
+    operation_machine.add_branch(slash_ost,slash_op,two_slash_ost,end_act);
+    operation_machine.add_branch(slash_ost,asterisk_op,comment_open_ost,end_act);
+    operation_machine.add_branch(asterisk_ost,slash_op,comment_close_ost,end_act);
 }
 
 int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
 {
     static State current_state;
-    static string val;
+    static string buf;
     if(smb.type == wrong_symb)
         return -1;
+    if(current_state.comment_state) {
+        if(smb.ch == '\n') {
+            if(current_state.comment_state == line_comment)
+                current_state.comment_state = no_comment;
+        } else if(smb.type != comment) {
+            return 0;
+        }
+    }
     State_act  state_act = main_machine.transitions[current_state.main_state][smb.type];
     switch(state_act.act) {
         case number_act: {
@@ -165,45 +180,65 @@ int recognize(Symbol& smb,vector<Lex_attributes> &recognized_lexs)
         }
         break;
         case operation_act: {
-            if(recognize_op(smb.ch, current_state) < 0) {
-                return -1;
+            switch (recognize_op(smb.ch, current_state)) {
+                case end_act: {
+                    buf+=smb.ch;
+                    if(recognize_lex(buf,current_state,recognized_lexs)<0)
+                        return -1;
+                    current_state.main_state = empty_st;
+                    return 0;
+                }
+                break;
+                case nil: {
+
+                }
+                break;
+                default: {
+                    return -1;
+                }
             }
         }
         break;
         case end_act: {
-            Token_type token_type = categorize(val, current_state);
-            switch(token_type) {
-                case space_type: {
-
-                }
-                break;
-                case wrong_type: {
-                    return -1;
-                }
-                break;
-                default: {
-                    recognized_lexs.push_back(Lex_attributes(current_state.s_num,val,token_type));
-                }
-            }
-
-            val.clear();
+            if(recognize_lex(buf,current_state,recognized_lexs)<0)
+                return -1;
             current_state.main_state = state_act.next;
             recognize(smb, recognized_lexs);
             return 0;
         }
         break;
     }
-    val+=smb.ch;
+    buf+=smb.ch;
     current_state.main_state = state_act.next;
 
     return 0;
+}
+
+int recognize_lex(std::string& buf, State& current_state, std::vector<Lex_attributes> &recognized_lexs)
+{
+    Token_type token_type = categorize(buf, current_state);
+    switch(token_type) {
+        case space_type: {
+
+        }
+        break;
+        case wrong_type: {
+            return -1;
+        }
+        break;
+        default: {
+            recognized_lexs.push_back(Lex_attributes(current_state.s_num,buf,token_type,current_state.value));
+        }
+    }
+
+    buf.clear();
 }
 
 int recognize_num(Symbol smb, State& current_state)
 {
       Number_symbol_type type_symbol = get_num_symol_type(smb.ch);
       State_act  state_act = number_machine.transitions[current_state.num_state][type_symbol];
-      if(state_act.act == end_act) {
+      if(state_act.act == wrong_act) {
           return -1;
       }
       current_state.num_state = state_act.next;
@@ -214,12 +249,12 @@ int recognize_op(Symbol smb, State& current_state)
 {
     Operation_symbol_type type_symbol = get_op_symol_type(smb.ch);
     State_act state_act = operation_machine.transitions[current_state.op_state][type_symbol];
-    if(state_act.act == end_act) {
+    if(state_act.act == wrong_act) {
         //cout<<"ERR "<<type_symbol<<' '<<smb.ch<<' '<<(int)current_state.op_state<<endl;
         return -1;
     }
     current_state.op_state = state_act.next;
-
+    return state_act.act;
 }
 
 Number_symbol_type get_num_symol_type(char ch)
@@ -245,7 +280,7 @@ Operation_symbol_type get_op_symol_type(char ch)
             return minus_op;
         }
         case '!': {
-            return exp_op;
+            return exclamation_op;
         }
         case '=': {
             return equal_op;
@@ -264,19 +299,75 @@ Operation_symbol_type get_op_symol_type(char ch)
             return slash_op;
         }
         case '*': {
-            return star_op;
+            return asterisk_op;
+        }
+    }
+}
+
+int get_num_separator(char ch)
+{
+    switch (ch) {
+        case ',': {
+            return comma;
+        }
+        case ';': {
+            return semicolon;
+        }
+        case '(': {
+            return left_parenthesis;
+        }
+        case ')': {
+            return right_parenthesis;
+        }
+        case '{': {
+            return left_brace;
+        }
+        case '}': {
+            return right_brace;
+        }
+        default: {
+            return -1;
+        }
+    }
+}
+
+int get_num_comparison(std::string str)
+{
+    switch (str[0]) {
+        case '=': {
+            return equal_val;
+        }
+        case '<': {
+            if(str.length()>1) {
+                return less_equal_val;
+            } else {
+                return less_val;
+            }
+        }
+        case '>': {
+            if(str.length()>1) {
+                return more_equal_val;
+            } else {
+                return more_val;
+            }
+        }
+        case '!': {
+            return not_equal_val;
         }
     }
 }
 
 Token_type categorize(string str, State& state)
 {
+    state.value.i = 0;
     switch(state.main_state) {
         case word_st: {
             int key = find_key_word(str);
-            if(key>=true_key) {
+            if(key>=false_key) {
+                state.value.i = key - false_key; // ture or false
                 return bool_type;
             } else if(key>=if_key) {
+                state.value.i = key;
                 return reserved_type;
             } else {
                 return id_type;
@@ -291,6 +382,7 @@ Token_type categorize(string str, State& state)
             if(str == " ") {
                 return space_type;
             }
+            state.value.i = get_num_separator(str[0]);
             return separator_type;
         }
         case number_st: {
@@ -298,9 +390,11 @@ Token_type categorize(string str, State& state)
             state.num_state = empty_nst;
             switch (num_state) {
                 case int_nst: {
+                    state.value.i = stoi(str);
                     return int_type;
                 }
                 case fraction_nst: {
+                    state.value.d = stod(str);
                     return float_type;
                 }
                 default: {
@@ -309,7 +403,10 @@ Token_type categorize(string str, State& state)
             }
         }
         case number_e_st: {
-            if(state.num_state == order_nst) {
+            int num_state = state.num_state;
+            state.num_state = empty_nst;
+            if(num_state == order_nst) {
+                state.value.d = stod(str);
                 return float_type;
             } else {
                 return wrong_type;
@@ -317,33 +414,84 @@ Token_type categorize(string str, State& state)
         }
         case comparison_st:
         case math_st: {
-           int op_state = state.op_state;
-           state.op_state = empty_nst;
-           switch (op_state) {
-              case assign_ost: {
-                  return assign_type;
-              }
-              case plus_ost: {
-                  return arifm_op_type;
-              }
-              case minus_ost: {
-                  return arifm_op_type;
-              }
-              case plus_plus_ost: {
-                  return unary_type;
-              }
-              case minus_minus_ost: {
-                  return unary_type;
-              }
-              case exp_sign_ost: {
-                  return unary_type;
-              }
-              case one_sign_comp_ost: {
-                  return comp_op_type;
-              }
-              case two_sign_comp_ost: {
-                  return comp_op_type;
-              }
+            int op_state = state.op_state;
+            state.op_state = empty_ost;
+            switch (op_state) {
+                case assign_ost: {
+                    return assign_type;
+                }
+                case plus_ost: {
+                    state.value.i = plus_val;
+                    return arifm_op_type;
+                }
+                case minus_ost: {
+                    state.value.i = minus_val;
+                    return arifm_op_type;
+                }
+                case plus_plus_ost: {
+                    state.value.i = plus_plus_val;
+                    return unary_type;
+                }
+                case minus_minus_ost: {
+                    state.value.i = minus_minus_val;
+                    return unary_type;
+                }
+                case exclamation_ost: {
+                    state.value.i = exclamation_val;
+                    return unary_type;
+                }
+                case one_sign_comp_ost: {
+                    state.value.i = get_num_comparison(str);
+                    return comp_op_type;
+                }
+                case two_sign_comp_ost: {
+                    state.value.i = get_num_comparison(str);
+                    return comp_op_type;
+                }
+                default: {
+                    return wrong_type;
+                }
+            }
+        }
+        case logic_st: {
+            int op_state = state.op_state;
+            state.op_state = empty_nst;
+            switch (op_state) {
+                case two_stick_ost: {
+                    state.value.i = or_val;
+                    return logic_op_type;
+                }
+                case two_ampersand_ost: {
+                    state.value.i = and_val;
+                    return logic_op_type;
+                }
+                default: {
+                    return wrong_type;
+                }
+            }
+        }
+        case comment_st: {
+            int op_state = state.op_state;
+            state.op_state = empty_nst;
+            switch (op_state) {
+                case two_slash_ost: {
+                    if(state.comment_state == no_comment)
+                        state.comment_state = line_comment;
+                    return space_type;
+                }
+                case comment_open_ost: {
+                    if(state.comment_state == no_comment)
+                        state.comment_state = multiple_comment;
+                    return space_type;
+                }
+                case comment_close_ost: {
+                    if(state.comment_state == multiple_comment)
+                        state.comment_state = no_comment;
+                    return space_type;
+                }
+                default: {
+                    return wrong_type;
+                }
             }
         }
         default: {
@@ -419,12 +567,7 @@ Symbol::Symbol(char c) { // transliterator
     }
 }
 
-State_act::State_act(){
-   this->next = empty_st;
-   this->act = end_act;
-}
-
-State_act::State_act(int next, Act act){
+State_act::State_act(int next = empty_st, Act act = end_act){
    this->next = next;
    this->act = act;
 }
@@ -435,13 +578,15 @@ Keyword::Keyword(string word, Keys key)
     this->key = key;
 }
 
-State_machine::State_machine(int state_num,int smb_num)
+State_machine::State_machine(int state_num,int smb_num, Act act)
 {
     this->state_num = state_num;
     this->smb_num = smb_num;
     transitions = new State_act*[state_num];
-    for(int i=0;i<state_num;i++)
+    for(int i=0;i<state_num;i++) {
         transitions[i] = new State_act[smb_num];
+        transitions[i]->act = act;
+    }
 }
 
 void State_machine::add_branch(int old_state, int smb, int next_state, Act call_back)
@@ -453,7 +598,7 @@ void State_machine::add_branch(int old_state, int smb, int next_state, Act call_
 // {
 //     for(int i =0;i<smb_num;i++) {
 //         if(transitions[state][i].act == end_act)
-//             transitions[state][i].act = invalid_act;
+//             transitions[state][i].act = inbufid_act;
 //     }
 // }
 
@@ -464,8 +609,9 @@ State_machine::~State_machine()
     delete transitions;
 }
 
-Lex_attributes::Lex_attributes(int s_num, std::string token, Token_type token_type) {
+Lex_attributes::Lex_attributes(int s_num, std::string token, Token_type token_type,Token_value value) {
     this->s_num = s_num;
     this-> token = token;
     this->token_type = token_type;
+    this->value = value;
 }

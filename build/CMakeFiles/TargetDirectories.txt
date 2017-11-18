@@ -1,7 +1,7 @@
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/install.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/list_install_components.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/rebuild_cache.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/LexicalAnalysis.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/edit_cache.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/install/strip.dir
-/home/mrmischief/Progs/Lexical-analyzer/build/CMakeFiles/install/local.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/rebuild_cache.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install/strip.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/LexicalAnalysis.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install/local.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/list_install_components.dir
+/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/edit_cache.dir

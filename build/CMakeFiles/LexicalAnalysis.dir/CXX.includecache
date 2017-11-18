@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.cpp
+/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.cpp
 fstream
 -
 iostream
@@ -22,19 +22,19 @@ list
 unordered_set
 -
 lexanalyzer.h
-/home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.h
+/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 iomanip
 -
 
-/home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.h
+/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 string
 -
 vector
 -
 
-/home/mrmischief/Progs/Lexical-analyzer/src/main.cpp
+/home/vlad/programs_new/Lexical analysis/src/main.cpp
 iostream
 -
 lexanalyzer.h
-/home/mrmischief/Progs/Lexical-analyzer/src/lexanalyzer.h
+/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 

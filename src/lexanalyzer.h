@@ -10,7 +10,8 @@ enum Symbol_type {
     logic, // & |
     math, // + - = !
     separator, // , ; ( ) { } \n
-    wrong_symb
+    wrong_symb,
+    number_of_symtype
 };
 enum States {
     end_st,
@@ -23,14 +24,16 @@ enum States {
     comparison_st, // == != > <
     logic_st, // && ||
     math_st, // ++ -- + - = !
-    separator_st
+    separator_st,
+    number_of_states
 };
 
 enum Number_symbol_type {
     digit_num,
     dot_num,
     e_num,
-    arifm_num
+    arifm_num,
+    number_of_numsymtype
 };
 
 enum Number_states {
@@ -40,19 +43,27 @@ enum Number_states {
     fraction_nst,
     e_nst,
     sign_nst,
-    order_nst
+    order_nst,
+    number_of_numstates
+};
+
+enum comment_states {
+    no_comment,
+    line_comment,
+    multiple_comment
 };
 
 enum Operation_symbol_type {
     plus_op, // +
     minus_op, // -
-    exp_op, // !
+    exclamation_op, // !
     equal_op, // =
     comp_op, // < >
     slash_op, // /
-    star_op, // *
+    asterisk_op, // *
     ampersand_op, // &
-    stick_op // |
+    stick_op, // |
+    number_of_opsymtype
 };
 
 enum Operation_state {
@@ -62,7 +73,7 @@ enum Operation_state {
     minus_ost,
     plus_plus_ost,
     minus_minus_ost,
-    exp_sign_ost,
+    exclamation_ost,
     one_sign_comp_ost,
     two_sign_comp_ost,
     ampersand_ost,
@@ -71,9 +82,10 @@ enum Operation_state {
     two_stick_ost,
     slash_ost,
     two_slash_ost,
-    star_ost,
+    asterisk_ost,
     comment_open_ost,
-    comment_close_ost;
+    comment_close_ost,
+    number_of_opstates
 
 };
 
@@ -81,6 +93,7 @@ enum Act{
     nil,
     number_act,
     operation_act,
+    wrong_act,
     end_act
 };
 
@@ -94,8 +107,9 @@ enum Keys {
     bool_key,
     int_key,
     double_key,
-    true_key = 101,
-    false_key
+    false_key = 101,
+    true_key
+
 };
 
 enum Token_type {
@@ -103,15 +117,49 @@ enum Token_type {
     wrong_type,
     id_type,
     reserved_type,
-    assign_type,
-    unary_type,
-    arifm_op_type,
-    logic_op_type,
-    comp_op_type,
+    assign_type, // =
+    unary_type, // ! -- ++
+    arifm_op_type, // + -
+    logic_op_type, // && ||
+    comp_op_type, // < > == != <= >=
     separator_type,
     int_type,
     float_type,
     bool_type
+};
+
+enum Num_separator {
+    comma, // ,
+    semicolon, // ;
+    left_parenthesis, // (
+    right_parenthesis, // )
+    left_brace, // {
+    right_brace // }
+};
+
+enum Num_arifmetic {
+    plus_val,
+    minus_val
+};
+
+enum Num_unary {
+    plus_plus_val,
+    minus_minus_val,
+    exclamation_val
+};
+
+enum Num_comp {
+    more_val,
+    less_val,
+    equal_val,
+    not_equal_val,
+    more_equal_val,
+    less_equal_val
+};
+
+enum Num_logic {
+    and_val,
+    or_val
 };
 
 struct Keyword {
@@ -127,7 +175,6 @@ struct Symbol {
 };
 
 struct State_act {
-    State_act();
     State_act(int next, Act act);
     int next;
     Act act;
@@ -139,7 +186,7 @@ struct Lexem {
 };
 
 struct State_machine {
-    State_machine(int state_num,int smb_num);
+    State_machine(int state_num,int smb_num, Act act);
     void add_branch(int old_state, int smb, int next_state, Act call_back);
     //void add_non_final_state(int state);
     ~State_machine();
@@ -149,28 +196,35 @@ struct State_machine {
     State_act** transitions;
 };
 
-
+union Token_value {
+    long long  i;
+    double d;
+};
 
 struct Lex_attributes {
-    Lex_attributes(int s_num, std::string token, Token_type token_type);
+    Lex_attributes(int s_num, std::string token, Token_type token_type, Token_value value);
     int s_num;
     std::string token;
     Token_type token_type;
-
-
+    Token_value value;
 };
+
+
 
 struct State {
     char main_state = empty_st;
     char num_state = empty_nst;
     char op_state = empty_ost;
+    char comment_state = no_comment;
     int s_num = 1;
+    Token_value value;
 };
 
 
 
 int analyze(char* fname);
 int recognize(Symbol& smb, std::vector<Lex_attributes> &recognized_lexs);
+int recognize_lex(std::string& buf, State& current_state, std::vector<Lex_attributes> &recognized_lexs);
 int recognize_num(Symbol smb, State& current_state);
 int recognize_op(Symbol smb, State& current_state);
 Number_symbol_type get_num_symol_type(char ch);
@@ -183,4 +237,7 @@ void init_hash_table();
 void add_hash(std::string word, Keys key);
 Token_type categorize(std::string str, State& state);
 int find_key_word(std::string word);
+int get_num_separator(char ch);
+int get_num_comparison(std::string str);
+
 #endif

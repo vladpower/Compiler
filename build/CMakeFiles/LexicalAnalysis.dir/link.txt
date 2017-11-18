@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o  -o LexicalAnalysis -rdynamic 
+/usr/bin/c++   -g   CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o  -o LexicalAnalysis -rdynamic 
