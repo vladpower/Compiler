@@ -25,6 +25,8 @@ lexanalyzer.h
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 iomanip
 -
+parser.h
+/home/vlad/programs_new/Lexical analysis/src/parser.h
 
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 string
@@ -35,6 +37,14 @@ vector
 /home/vlad/programs_new/Lexical analysis/src/main.cpp
 iostream
 -
+lexanalyzer.h
+/home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
+
+/home/vlad/programs_new/Lexical analysis/src/parser.cpp
+parser.h
+/home/vlad/programs_new/Lexical analysis/src/parser.h
+
+/home/vlad/programs_new/Lexical analysis/src/parser.h
 lexanalyzer.h
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
 

@@ -4,6 +4,11 @@
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o
  /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.cpp
  /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
+ /home/vlad/programs_new/Lexical analysis/src/parser.h
 CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
  /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
  /home/vlad/programs_new/Lexical analysis/src/main.cpp
+CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.o
+ /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
+ /home/vlad/programs_new/Lexical analysis/src/parser.cpp
+ /home/vlad/programs_new/Lexical analysis/src/parser.h

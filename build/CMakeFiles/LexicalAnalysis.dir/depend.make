@@ -3,7 +3,12 @@
 
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o: ../src/lexanalyzer.cpp
 CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o: ../src/lexanalyzer.h
+CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o: ../src/parser.h
 
 CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: ../src/lexanalyzer.h
 CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o: ../src/main.cpp
+
+CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.o: ../src/lexanalyzer.h
+CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.o: ../src/parser.cpp
+CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.o: ../src/parser.h
 

@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "lexanalyzer.h"
 #include <iomanip>
+#include "parser.h"
 
 using namespace std;
 
@@ -22,9 +23,18 @@ int analyze(char* fname)
         Symbol smb(ch);
         if(recognize(smb, recognized_lexs) < 0) {
             cerr << "Invalid character "<< smb.ch << endl;
+            return 0;
         }
     }
+    show_lexs(recognized_lexs);
+    parse(recognized_lexs);
 
+    fin.close();
+    return 0;
+}
+
+void show_lexs(vector<Lex_attributes>& recognized_lexs)
+{
     for(vector<Lex_attributes>::iterator it = recognized_lexs.begin();it != recognized_lexs.end();it++) {
         cout<<it->s_num<<'\t'<<it->token<<'\t';
         switch (it->token_type) {
@@ -81,9 +91,6 @@ int analyze(char* fname)
         }
         cout << endl;
     }
-
-    fin.close();
-    return 0;
 }
 
 

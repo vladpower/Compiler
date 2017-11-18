@@ -2,6 +2,7 @@
 #define LEXANALYZER_H
 #include <string>
 #include <vector>
+using namespace std;
 enum Symbol_type {
     digit, // 0..9
     letter, // a..z _
@@ -93,6 +94,10 @@ enum Act{
     nil,
     number_act,
     operation_act,
+    resword_act,
+    separator_act,
+    shift_act,
+    reduce_act,
     wrong_act,
     end_act
 };
@@ -125,7 +130,8 @@ enum Token_type {
     separator_type,
     int_type,
     float_type,
-    bool_type
+    bool_type,
+    number_of_tokens
 };
 
 enum Num_separator {
@@ -163,8 +169,8 @@ enum Num_logic {
 };
 
 struct Keyword {
-    Keyword(std::string word, Keys key);
-    std::string word;
+    Keyword(string word, Keys key);
+    string word;
     Keys key;
 };
 
@@ -181,7 +187,7 @@ struct State_act {
 };
 
 struct Lexem {
-    std::string name;
+    string name;
 
 };
 
@@ -202,9 +208,9 @@ union Token_value {
 };
 
 struct Lex_attributes {
-    Lex_attributes(int s_num, std::string token, Token_type token_type, Token_value value);
+    Lex_attributes(int s_num, string token, Token_type token_type, Token_value value);
     int s_num;
-    std::string token;
+    string token;
     Token_type token_type;
     Token_value value;
 };
@@ -223,8 +229,8 @@ struct State {
 
 
 int analyze(char* fname);
-int recognize(Symbol& smb, std::vector<Lex_attributes> &recognized_lexs);
-int recognize_lex(std::string& buf, State& current_state, std::vector<Lex_attributes> &recognized_lexs);
+int recognize(Symbol& smb, vector<Lex_attributes> &recognized_lexs);
+int recognize_lex(string& buf, State& current_state, vector<Lex_attributes> &recognized_lexs);
 int recognize_num(Symbol smb, State& current_state);
 int recognize_op(Symbol smb, State& current_state);
 Number_symbol_type get_num_symol_type(char ch);
@@ -234,10 +240,11 @@ void init_main_machine();
 void init_number_machine();
 void init_operation_machine();
 void init_hash_table();
-void add_hash(std::string word, Keys key);
-Token_type categorize(std::string str, State& state);
-int find_key_word(std::string word);
+void add_hash(string word, Keys key);
+Token_type categorize(string str, State& state);
+int find_key_word(string word);
 int get_num_separator(char ch);
-int get_num_comparison(std::string str);
+int get_num_comparison(string str);
+void show_lexs(vector<Lex_attributes>& recognized_lexs);
 
 #endif
