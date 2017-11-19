@@ -26,7 +26,7 @@ int analyze(char* fname)
             return 0;
         }
     }
-    show_lexs(recognized_lexs);
+    //show_lexs(recognized_lexs);
     parse(recognized_lexs);
 
     fin.close();
@@ -517,9 +517,9 @@ void init_hash_table()
     add_hash("while",while_key);
     add_hash("break",break_key);
     add_hash("continue",continue_key);
-    add_hash("bool",while_key);
-    add_hash("int",break_key);
-    add_hash("double",continue_key);
+    add_hash("bool",bool_key);
+    add_hash("int",int_key);
+    add_hash("double",double_key);
     add_hash("true",true_key);
     add_hash("false",false_key);
 }
@@ -539,7 +539,7 @@ int find_key_word(string word)
         }
         it++;
     }
-    return 0;
+    return -1;
 }
 
 Symbol::Symbol(char c) { // transliterator
@@ -592,7 +592,9 @@ State_machine::State_machine(int state_num,int smb_num, Act act)
     transitions = new State_act*[state_num];
     for(int i=0;i<state_num;i++) {
         transitions[i] = new State_act[smb_num];
-        transitions[i]->act = act;
+        for(int j=0;j<smb_num;j++) {
+            transitions[i][j].act = act;
+        }
     }
 }
 

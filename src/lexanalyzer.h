@@ -103,7 +103,7 @@ enum Act{
 };
 
 enum Keys {
-    if_key = 1,
+    if_key,
     else_key,
     for_key,
     while_key,
@@ -112,8 +112,9 @@ enum Keys {
     bool_key,
     int_key,
     double_key,
-    false_key = 101,
-    true_key
+    false_key,
+    true_key,
+    number_of_keys
 
 };
 
@@ -131,6 +132,7 @@ enum Token_type {
     int_type,
     float_type,
     bool_type,
+    end_type,
     number_of_tokens
 };
 
@@ -140,7 +142,8 @@ enum Num_separator {
     left_parenthesis, // (
     right_parenthesis, // )
     left_brace, // {
-    right_brace // }
+    right_brace, // }
+    number_of_separators
 };
 
 enum Num_arifmetic {
@@ -186,10 +189,6 @@ struct State_act {
     Act act;
 };
 
-struct Lexem {
-    string name;
-
-};
 
 struct State_machine {
     State_machine(int state_num,int smb_num, Act act);
@@ -244,7 +243,6 @@ void add_hash(string word, Keys key);
 Token_type categorize(string str, State& state);
 int find_key_word(string word);
 int get_num_separator(char ch);
-int get_num_comparison(string str);
-void show_lexs(vector<Lex_attributes>& recognized_lexs);
+int get_num_comparison(string str); void show_lexs(vector<Lex_attributes>& recognized_lexs);
 
 #endif

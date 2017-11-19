@@ -1,21 +1,3 @@
-bool one = true;
-double three=3.5;
-int four = 5.7685E-5;
-four=one+three;
-if(one!=four && one || four)
-    for(int i=0;i<5;i++) {
-        int j =10;
-        /* this is comment */double a;
-        while(j>0) {
-            j--;
-        }
-        /* this 
-           is 
-           comment */
-        if(i==3)
-            break;
-// comment
-        else if(i>3)
-            continue;
-    }
-three = !one;
+;
+a=b+c;
+;

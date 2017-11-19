@@ -43,8 +43,12 @@ lexanalyzer.h
 /home/vlad/programs_new/Lexical analysis/src/parser.cpp
 parser.h
 /home/vlad/programs_new/Lexical analysis/src/parser.h
+iostream
+-
 
 /home/vlad/programs_new/Lexical analysis/src/parser.h
 lexanalyzer.h
 /home/vlad/programs_new/Lexical analysis/src/lexanalyzer.h
+stack
+-
 
