@@ -1,3 +1,5 @@
-;
-a=b+c;
-;
+for(int a=0; a<b;++a);
+while(a) {
+break;
+continue;
+}

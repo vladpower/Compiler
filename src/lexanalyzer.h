@@ -97,6 +97,7 @@ enum Act{
     resword_act,
     separator_act,
     shift_act,
+    alt_shift_act,
     reduce_act,
     wrong_act,
     end_act
