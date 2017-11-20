@@ -49,9 +49,9 @@ void init_parser_machine()
     parser_machine.add_branch(get_pt(empty_pt), while_pt, get_pt(statement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), block_pt, get_pt(statement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), local_var_decl_pt, get_pt(for_opt_pt), reduce_act);
+    parser_machine.add_branch(get_pt(empty_pt), for_opt_pt, get_pt(prestatement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), var_init_pt, get_pt(var_list_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), statement_exp_pt, get_pt(for_opt_pt), reduce_act);
-    parser_machine.add_branch(get_pt(empty_pt), for_opt_pt, get_pt(statement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), statement_pt, get_pt(statements_pt), reduce_act);
 
     parser_machine.add_branch(get_pt(alt_pt), id_type, get_pt(alt_id_pt), reduce_act);
@@ -83,10 +83,12 @@ void init_parser_machine()
     parser_machine.add_branch(get_pt(statement_op_pt), expression_pt, get_pt(statement_exp_pt), reduce_act);
 
     parser_machine.add_branch(get_pt(statement_exp_pt), separator_type, get_pt(error_pt), separator_act); // ;
-
+    //parser_machine.add_branch(get_pt(local_var_statement_pt), separator_type, get_pt(error_pt), separator_act); // ;
 
     parser_machine.add_branch(get_pt(type_pt), id_type, get_pt(error_pt), alt_shift_act);
     parser_machine.add_branch(get_pt(type_pt), var_list_pt, get_pt(local_var_decl_pt), reduce_act);
+
+    parser_machine.add_branch(get_pt(prestatement_pt), separator_type, get_pt(error_pt), separator_act);
 
 
     add_default_shifts(var_assign_pt);
@@ -173,8 +175,9 @@ void init_separator_pars_machine()
     separator_pars_machine.add_branch(get_pt(statements_pt), semicolon, get_pt(error_pt), shift_act);
     separator_pars_machine.add_branch(get_pt(if_1_pt), left_parenthesis, get_pt(if_2_pt), reduce_act);
     separator_pars_machine.add_branch(get_pt(if_3_pt), right_parenthesis, get_pt(if_4_pt), reduce_act);
-    separator_pars_machine.add_branch(get_pt(local_var_decl_pt), semicolon, get_pt(statement_pt), reduce_act);
+    //separator_pars_machine.add_branch(get_pt(local_var_statement_pt), semicolon, get_pt(statement_pt), reduce_act);
     separator_pars_machine.add_branch(get_pt(statement_exp_pt), semicolon, get_pt(statement_pt), reduce_act);
+    separator_pars_machine.add_branch(get_pt(prestatement_pt), semicolon, get_pt(statement_pt), reduce_act);
 
     separator_pars_machine.add_branch(get_pt(var_init_pt), comma, get_pt(var_comma_pt), reduce_act);
     separator_pars_machine.add_branch(get_pt(local_var_decl_pt), comma, get_pt(var_comma_pt), reduce_act);
@@ -205,10 +208,10 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
     int token_val = lex.value.i;
     int act;
     int next = parse_pt(buf.top(), token_type, act,token_val);
-    cout << "act " << act << " last " << buf.top() << " token " << token_type << " next " << next << endl;
+    //cout << "act " << act << " last " << buf.top() << " token " << token_type << " next " << next << endl;
     switch (act) {
         case reduce_act: {
-            cout<<"pop "<<buf.top()<<", push "<<next<<endl;
+            cout<<"pop \t"<<get_name_pt(buf.top())<<"\t push \t"<<get_name_pt(next)<<endl;
             buf.pop();
             buf.push(next);
             if(buf.size()>=2) {
@@ -216,9 +219,9 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
                 buf.pop();
                 int penult = buf.top();
                 int new_next = parse_pt(penult ,last + number_of_tokens, next_act);
-                cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
+                //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
                 if(next_act == reduce_act && new_next != error_pt) {
-                    cout<<"pop "<<penult<<", pop "<<last<<", push "<<new_next<<endl;
+                    cout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<",\t push \t"<<get_name_pt(new_next)<<endl;
                     buf.pop();
                     buf.push(new_next);
                 } else {
@@ -233,7 +236,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
             int next_act;
             next = parse_pt(get_pt(empty_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                cout<<"push "<<next<<endl;
+                cout<<"push \t"<<get_name_pt(next)<<endl;
                 buf.push(next);
             } else {
                 return -1;
@@ -244,7 +247,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
             int next_act;
             next = parse_pt(get_pt(alt_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                cout<<"push "<<next<<endl;
+                cout<<"push \t"<<get_name_pt(next)<<endl;
                 buf.push(next);
             } else {
                 return -1;
@@ -258,9 +261,9 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
                 buf.pop();
                 int penult = buf.top();
                 next = parse_pt(penult ,last + number_of_tokens, next_act);
-                cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
+                //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
                 if(next_act != wrong_act && next != error_pt) {
-                    cout<<"pop "<<penult<<", pop "<<last<<", push "<<next<<endl;
+                    cout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<"\t push \t"<<get_name_pt(next)<<endl;
                     buf.pop();
                     buf.push(next);
                     return parse_lex(lex,buf);
@@ -270,7 +273,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
             }
             next = parse_pt(get_pt(empty_pt), last + number_of_tokens, next_act);
             if(next_act == reduce_act) {
-                cout<<"pop " << buf.top() << " push "<<next<<endl;
+                cout<<"pop \t" << get_name_pt(buf.top()) << "\t push \t"<<get_name_pt(next)<<endl;
                 buf.pop();
                 buf.push(next);
                 if(parse_lex(lex,buf)<0) {
@@ -315,4 +318,138 @@ int parse_pt(int last, int pt, int& act, int val_lex)
 int get_pt(int type)
 {
     return type - empty_pt;
+}
+
+string get_name_pt(int pt)
+{
+    switch(pt+number_of_tokens) {
+        // case id_type:
+        // return "id_type";
+        // case reserved_type:
+        // return "reserved_type";
+        // case assign_type:
+        // return "assign_type";
+        // case unary_type:
+        // return "unary_type";
+        // case arifm_op_type:
+        // return "arifm_op_type";
+        // case logic_op_type:
+        // return "logic_op_type";
+        // case comp_op_type:
+        // return "comp_op_type";
+        // case separator_type:
+        // return "separator_type";
+        // case int_type:
+        // return "int_type";
+        // case float_type:
+        // return "float_type";
+        // case bool_type:
+        // return "bool_type";
+        // case end_type:
+        // return "end_type";
+        case empty_pt:
+        return "empty_pt";
+        case operand_pt:
+        return "operand_pt";
+        case id_pt:
+        return "id_pt";
+        case alt_id_pt:
+        return "alt_id_pt";
+        case unary_op_pt:
+        return "unary_op_pt";
+        case unary_exp_pt:
+        return "unary_exp_pt";
+        case additive_op_pt:
+        return "additive_op_pt";
+        case additive_exp_pt:
+        return "additive_exp_pt";
+        case log_op_pt:
+        return "log_op_pt";
+        case log_exp_pt:
+        return "log_exp_pt";
+        case expression_op_pt:
+        return "expression_op_pt";
+        case expression_pt:
+        return "expression_pt";
+        case statement_op_pt:
+        return "statement_op_pt";
+        case statement_exp_pt:
+        return "statement_exp_pt";
+        case local_var_decl_pt:
+        return "local_var_decl_pt";
+        case var_comma_pt:
+        return "var_comma_pt";
+        case var_assign_pt:
+        return "var_assign_pt";
+        case var_list_pt:
+        return "var_list_pt";
+        case var_init_pt:
+        return "var_init_pt";
+        case type_pt:
+        return "type_pt";
+        case statement_pt:
+        return "statement_pt";
+        case statements_pt:
+        return "statements_pt";
+        case for_opt_pt:
+        return "for_opt_pt";
+        case if_1_pt:
+        return "if_1_pt";
+        case if_2_pt:
+        return "if_2_pt";
+        case if_3_pt:
+        return "if_3_pt";
+        case if_4_pt:
+        return "if_4_pt";
+        case if_pt:
+        return "if_pt";
+        case else_1_pt:
+        return "else_1_pt";
+        case else_pt:
+        return "else_pt";
+        case for_1_pt:
+        return "for_1_pt";
+        case for_2_pt:
+        return "for_2_pt";
+        case for_3_pt:
+        return "for_3_pt";
+        case for_4_pt:
+        return "for_4_pt";
+        case for_5_pt:
+        return "for_5_pt";
+        case for_6_pt:
+        return "for_6_pt";
+        case for_7_pt:
+        return "for_7_pt";
+        case for_8_pt:
+        return "for_8_pt";
+        case for_pt:
+        return "for_pt";
+        case while_1_pt:
+        return "while_1_pt";
+        case while_2_pt:
+        return "while_2_pt";
+        case while_3_pt:
+        return "while_3_pt";
+        case while_4_pt:
+        return "while_4_pt";
+        case while_pt:
+        return "while_pt";
+        case break_pt:
+        return "break_pt";
+        case continue_pt:
+        return "continue_pt";
+        case block_1_pt:
+        return "block_1_pt";
+        case block_2_pt:
+        return "block_2_pt";
+        case block_pt:
+        return "block_pt";
+        case error_pt:
+        return "error_pt";
+        case alt_pt:
+        return "alt_pt";
+        default:
+        return to_string(pt);
+    }
 }

@@ -5,6 +5,7 @@
 using namespace std;
 
 int parse(vector<Lex_attributes> recognized_lexs);
+string get_name_pt(int pt);
 void add_default_shifts(int pt);
 int parse_lex(Lex_attributes lex,stack<int>& buf);
 int parse_pt(int last, int next, int& act, int val_lex = 0);
@@ -31,6 +32,7 @@ enum Parser_nonterminals {
     statement_op_pt,
     statement_exp_pt,
     local_var_decl_pt,
+    prestatement_pt,
     var_comma_pt,
     var_assign_pt,
     var_list_pt,
