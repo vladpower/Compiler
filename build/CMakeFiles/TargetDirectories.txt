@@ -1,7 +1,0 @@
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/rebuild_cache.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install/strip.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/Parser.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/install/local.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/list_install_components.dir
-/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/edit_cache.dir
