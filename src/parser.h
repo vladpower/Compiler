@@ -2,14 +2,18 @@
 #define PARSER_H
 #include "lexanalyzer.h"
 #include <stack>
+#include <fstream>
 using namespace std;
 
 int parse(vector<Lex_attributes> recognized_lexs);
 string get_name_pt(int pt);
 void add_default_shifts(int pt);
-int parse_lex(Lex_attributes lex,stack<int>& buf);
+int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout);
 int parse_pt(int last, int next, int& act, int val_lex = 0);
 int get_pt(int type);
+void reduce_next(stack<int>& buf, int next,ofstream& fout);
+int reduce_last(stack<int>& buf,ofstream& fout);
+void reduce_one(stack<int>& buf, int next,ofstream& fout);
 
 void init_parser_machine();
 void init_resword_pars_machine();

@@ -6,7 +6,7 @@ if(one!=four && one || four)
     for(int i=0;i<5;++i) {
         int j =10;
         /* this is comment */double a;
-        while(j>0) {
+        while(j<0) {
             k = --j;
         }
         /* this 

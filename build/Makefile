@@ -155,17 +155,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named LexicalAnalysis
+# Target rules for targets named Parser
 
 # Build rule for target.
-LexicalAnalysis: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 LexicalAnalysis
-.PHONY : LexicalAnalysis
+Parser: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Parser
+.PHONY : Parser
 
 # fast build rule for target.
-LexicalAnalysis/fast:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/build
-.PHONY : LexicalAnalysis/fast
+Parser/fast:
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/build
+.PHONY : Parser/fast
 
 src/lexanalyzer.o: src/lexanalyzer.cpp.o
 
@@ -173,7 +173,7 @@ src/lexanalyzer.o: src/lexanalyzer.cpp.o
 
 # target to build an object file
 src/lexanalyzer.cpp.o:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.o
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexanalyzer.cpp.o
 .PHONY : src/lexanalyzer.cpp.o
 
 src/lexanalyzer.i: src/lexanalyzer.cpp.i
@@ -182,7 +182,7 @@ src/lexanalyzer.i: src/lexanalyzer.cpp.i
 
 # target to preprocess a source file
 src/lexanalyzer.cpp.i:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.i
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexanalyzer.cpp.i
 .PHONY : src/lexanalyzer.cpp.i
 
 src/lexanalyzer.s: src/lexanalyzer.cpp.s
@@ -191,7 +191,7 @@ src/lexanalyzer.s: src/lexanalyzer.cpp.s
 
 # target to generate assembly for a file
 src/lexanalyzer.cpp.s:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/lexanalyzer.cpp.s
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/lexanalyzer.cpp.s
 .PHONY : src/lexanalyzer.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -200,7 +200,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -209,7 +209,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -218,7 +218,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/parser.o: src/parser.cpp.o
@@ -227,7 +227,7 @@ src/parser.o: src/parser.cpp.o
 
 # target to build an object file
 src/parser.cpp.o:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.o
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/parser.cpp.o
 .PHONY : src/parser.cpp.o
 
 src/parser.i: src/parser.cpp.i
@@ -236,7 +236,7 @@ src/parser.i: src/parser.cpp.i
 
 # target to preprocess a source file
 src/parser.cpp.i:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.i
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/parser.cpp.i
 .PHONY : src/parser.cpp.i
 
 src/parser.s: src/parser.cpp.s
@@ -245,7 +245,7 @@ src/parser.s: src/parser.cpp.s
 
 # target to generate assembly for a file
 src/parser.cpp.s:
-	$(MAKE) -f CMakeFiles/LexicalAnalysis.dir/build.make CMakeFiles/LexicalAnalysis.dir/src/parser.cpp.s
+	$(MAKE) -f CMakeFiles/Parser.dir/build.make CMakeFiles/Parser.dir/src/parser.cpp.s
 .PHONY : src/parser.cpp.s
 
 # Help Target
@@ -256,7 +256,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... install/strip"
-	@echo "... LexicalAnalysis"
+	@echo "... Parser"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... list_install_components"

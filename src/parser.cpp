@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <iostream>
 
+
 int parse(vector<Lex_attributes> recognized_lexs)
 {
     init_parser_machine();
@@ -12,8 +13,10 @@ int parse(vector<Lex_attributes> recognized_lexs)
     val.i = 0;
     recognized_lexs.push_back(Lex_attributes(0,"",end_type,val));
     vector<Lex_attributes>::iterator it;
+    ofstream fout;
+    fout.open ("syntax.log");
     for(it = recognized_lexs.begin();it!=recognized_lexs.end();it++) {
-        if(parse_lex(*it, buf)<0) {
+        if(parse_lex(*it, buf,fout)<0) {
             cout << "Syntax error" << endl;
             cout << "Line " << it->s_num << ": Invalid token " << it->token << endl;
             return -1;
@@ -201,7 +204,7 @@ void add_default_shifts(int pt)
     parser_machine.add_branch(get_pt(pt), unary_type, get_pt(error_pt), shift_act);
 }
 
-int parse_lex(Lex_attributes lex,stack<int>& buf)
+int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
 {
     int last = buf.top();
     int token_type = lex.token_type;
@@ -211,33 +214,15 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
     //cout << "act " << act << " last " << buf.top() << " token " << token_type << " next " << next << endl;
     switch (act) {
         case reduce_act: {
-            cout<<"pop \t"<<get_name_pt(buf.top())<<"\t push \t"<<get_name_pt(next)<<endl;
-            buf.pop();
-            buf.push(next);
-            if(buf.size()>=2) {
-                int next_act;
-                buf.pop();
-                int penult = buf.top();
-                int new_next = parse_pt(penult ,last + number_of_tokens, next_act);
-                //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
-                if(next_act == reduce_act && new_next != error_pt) {
-                    cout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<",\t push \t"<<get_name_pt(new_next)<<endl;
-                    buf.pop();
-                    buf.push(new_next);
-                } else {
-                    buf.push(next);
-                }
-            }
-
-
+            reduce_next(buf, next,fout);
+            reduce_last(buf,fout);
         }
         break;
         case shift_act: {
             int next_act;
             next = parse_pt(get_pt(empty_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                cout<<"push \t"<<get_name_pt(next)<<endl;
-                buf.push(next);
+                reduce_one(buf,next,fout);
             } else {
                 return -1;
             }
@@ -247,8 +232,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
             int next_act;
             next = parse_pt(get_pt(alt_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                cout<<"push \t"<<get_name_pt(next)<<endl;
-                buf.push(next);
+                reduce_one(buf,next,fout);
             } else {
                 return -1;
             }
@@ -256,29 +240,12 @@ int parse_lex(Lex_attributes lex,stack<int>& buf)
         break;
         case wrong_act: {
             int next_act;
-
-            if(buf.size()>=2) {
-                buf.pop();
-                int penult = buf.top();
-                next = parse_pt(penult ,last + number_of_tokens, next_act);
-                //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
-                if(next_act != wrong_act && next != error_pt) {
-                    cout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<"\t push \t"<<get_name_pt(next)<<endl;
-                    buf.pop();
-                    buf.push(next);
-                    return parse_lex(lex,buf);
-                } else {
-                    buf.push(last);
-                }
-            }
+            if(reduce_last(buf,fout))
+                return parse_lex(lex,buf, fout);
             next = parse_pt(get_pt(empty_pt), last + number_of_tokens, next_act);
             if(next_act == reduce_act) {
-                cout<<"pop \t" << get_name_pt(buf.top()) << "\t push \t"<<get_name_pt(next)<<endl;
-                buf.pop();
-                buf.push(next);
-                if(parse_lex(lex,buf)<0) {
-                    return -1;
-                }
+                reduce_next(buf, next,fout);
+                return parse_lex(lex,buf, fout);
             } else {
                 return -1;
             }
@@ -379,6 +346,8 @@ string get_name_pt(int pt)
         return "local_var_decl_pt";
         case var_comma_pt:
         return "var_comma_pt";
+        case prestatement_pt:
+        return "prestatement_pt";
         case var_assign_pt:
         return "var_assign_pt";
         case var_list_pt:
@@ -452,4 +421,38 @@ string get_name_pt(int pt)
         default:
         return to_string(pt);
     }
+}
+
+void reduce_next(stack<int>& buf, int next,ofstream& fout)
+{
+    fout<<"pop \t"<<get_name_pt(buf.top())<<"\t push \t"<<get_name_pt(next)<<endl;
+    buf.pop();
+    buf.push(next);
+}
+
+int reduce_last(stack<int>& buf,ofstream& fout)
+{
+    if(buf.size()>=2) {
+        int next_act;
+        int last = buf.top();
+        buf.pop();
+        int penult = buf.top();
+        int new_next = parse_pt(penult ,last + number_of_tokens, next_act);
+        //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
+        if(next_act == reduce_act && new_next != error_pt) {
+            fout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<",\t push \t"<<get_name_pt(new_next)<<endl;
+            buf.pop();
+            buf.push(new_next);
+            return 1;
+        } else {
+            buf.push(last);
+            return 0;
+        }
+    }
+}
+
+void reduce_one(stack<int>& buf, int next,ofstream& fout)
+{
+    fout<<"push \t"<<get_name_pt(next)<<endl;
+    buf.push(next);
 }

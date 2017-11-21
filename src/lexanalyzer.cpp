@@ -22,74 +22,77 @@ int analyze(char* fname)
     while (fin >> noskipws >> ch) {
         Symbol smb(ch);
         if(recognize(smb, recognized_lexs) < 0) {
-            cerr << "Invalid character "<< smb.ch << endl;
+            cerr << "Line "<<recognized_lexs.back().s_num<<": Invalid character "<< smb.ch << endl;
             return 0;
         }
     }
-    //show_lexs(recognized_lexs);
+
+    ofstream fout;
+    fout.open ("lexanalyzer.out");
+    show_lexs(recognized_lexs,fout);
     parse(recognized_lexs);
 
     fin.close();
     return 0;
 }
 
-void show_lexs(vector<Lex_attributes>& recognized_lexs)
+void show_lexs(vector<Lex_attributes>& recognized_lexs, ofstream& fout)
 {
     for(vector<Lex_attributes>::iterator it = recognized_lexs.begin();it != recognized_lexs.end();it++) {
-        cout<<it->s_num<<'\t'<<it->token<<'\t';
+        fout<<it->s_num<<'\t'<<it->token<<'\t';
         switch (it->token_type) {
             case id_type: {
-                cout<<"identifier";
+                fout<<"identifier";
             }
             break;
             case reserved_type: {
-                cout<<"reserved word";
+                fout<<"reserved word";
             }
             break;
             case unary_type: {
-                cout<<"unary type";
+                fout<<"unary type";
             }
             break;
             case assign_type: {
-                cout<<"assign operation";
+                fout<<"assign operation";
             }
             break;
             case arifm_op_type: {
-                cout<<"arifmetic operation";
+                fout<<"arifmetic operation";
             }
             break;
             case logic_op_type: {
-                cout<<"logic operation";
+                fout<<"logic operation";
             }
             break;
             case comp_op_type: {
-                cout<<"comparison operation";
+                fout<<"comparison operation";
             }
             break;
             case separator_type: {
-                cout<<"separator";
+                fout<<"separator";
             }
             break;
             case int_type: {
-                cout<<"integer constant";
+                fout<<"integer constant";
             }
             break;
             case float_type: {
-                cout<<"float constant";
+                fout<<"float constant";
             }
             break;
             case bool_type: {
-                cout<<"bool constant";
+                fout<<"bool constant";
             }
             break;
         }
-        cout<<'\t';
+        fout<<'\t';
         if(it->token_type == float_type) {
-            cout << it->value.d;
+            fout << it->value.d;
         } else {
-            cout << it->value.i;
+            fout << it->value.i;
         }
-        cout << endl;
+        fout << endl;
     }
 }
 
@@ -257,7 +260,7 @@ int recognize_op(Symbol smb, State& current_state)
     Operation_symbol_type type_symbol = get_op_symol_type(smb.ch);
     State_act state_act = operation_machine.transitions[current_state.op_state][type_symbol];
     if(state_act.act == wrong_act) {
-        //cout<<"ERR "<<type_symbol<<' '<<smb.ch<<' '<<(int)current_state.op_state<<endl;
+        //fout<<"ERR "<<type_symbol<<' '<<smb.ch<<' '<<(int)current_state.op_state<<endl;
         return -1;
     }
     current_state.op_state = state_act.next;
@@ -400,6 +403,7 @@ Token_type categorize(string str, State& state)
                     state.value.i = stoi(str);
                     return int_type;
                 }
+                case dot_nst:
                 case fraction_nst: {
                     state.value.d = stod(str);
                     return float_type;

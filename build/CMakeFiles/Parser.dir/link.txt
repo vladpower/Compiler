@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/Parser.dir/src/lexanalyzer.cpp.o CMakeFiles/Parser.dir/src/main.cpp.o CMakeFiles/Parser.dir/src/parser.cpp.o  -o Parser -rdynamic 

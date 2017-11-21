@@ -1,4 +1,4 @@
-The system is: Linux - 4.4.0-98-generic - x86_64
+The system is: Linux - 4.4.0-101-generic - x86_64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /usr/bin/cc 
 Build flags: 
@@ -28,28 +28,28 @@ The CXX compiler identification is GNU, found in "/home/vlad/programs_new/Lexica
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_523c9/fast"
-/usr/bin/make -f CMakeFiles/cmTC_523c9.dir/build.make CMakeFiles/cmTC_523c9.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_244bc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_244bc.dir/build.make CMakeFiles/cmTC_244bc.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building C object CMakeFiles/cmTC_523c9.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_523c9.dir/testCCompiler.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp/testCCompiler.c"
-Linking C executable cmTC_523c9
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_523c9.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_523c9.dir/testCCompiler.c.o  -o cmTC_523c9 -rdynamic 
+Building C object CMakeFiles/cmTC_244bc.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_244bc.dir/testCCompiler.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp/testCCompiler.c"
+Linking C executable cmTC_244bc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_244bc.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_244bc.dir/testCCompiler.c.o  -o cmTC_244bc -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_367dd/fast"
-/usr/bin/make -f CMakeFiles/cmTC_367dd.dir/build.make CMakeFiles/cmTC_367dd.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5ce6c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5ce6c.dir/build.make CMakeFiles/cmTC_5ce6c.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building C object CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_367dd
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_367dd.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o  -o cmTC_367dd -rdynamic  
+Building C object CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_5ce6c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ce6c.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o  -o cmTC_5ce6c -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -59,8 +59,8 @@ Thread model: posix
 gcc version 5.4.1 20160904 (Ubuntu 5.4.1-2ubuntu1~16.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_367dd' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSi9PFi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_367dd /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5ce6c' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccGr9gh9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_5ce6c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -68,14 +68,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_367dd/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_367dd.dir/build.make CMakeFiles/cmTC_367dd.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_5ce6c/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_5ce6c.dir/build.make CMakeFiles/cmTC_5ce6c.dir/build]
   ignore line: [make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»]
-  ignore line: [Building C object CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_367dd]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_367dd.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o  -o cmTC_367dd -rdynamic  ]
+  ignore line: [Building C object CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_5ce6c]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ce6c.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o  -o cmTC_5ce6c -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -85,13 +85,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.1 20160904 (Ubuntu 5.4.1-2ubuntu1~16.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_367dd' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSi9PFi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_367dd /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5ce6c' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccGr9gh9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_5ce6c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccSi9PFi.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccGr9gh9.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -109,7 +109,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_367dd] ==> ignore
+    arg [cmTC_5ce6c] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -121,7 +121,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_367dd.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_5ce6c.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -155,14 +155,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_c3d53/fast"
-/usr/bin/make -f CMakeFiles/cmTC_c3d53.dir/build.make CMakeFiles/cmTC_c3d53.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_0433d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0433d.dir/build.make CMakeFiles/cmTC_0433d.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building C object CMakeFiles/cmTC_c3d53.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_c3d53.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_c3d53
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3d53.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_c3d53.dir/feature_tests.c.o  -o cmTC_c3d53 -rdynamic 
+Building C object CMakeFiles/cmTC_0433d.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_0433d.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_0433d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0433d.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_0433d.dir/feature_tests.c.o  -o cmTC_0433d -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -175,14 +175,14 @@ make[1]: выход из каталога «/home/vlad/programs_new/Lexical anal
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_14e6a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_14e6a.dir/build.make CMakeFiles/cmTC_14e6a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_bedda/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bedda.dir/build.make CMakeFiles/cmTC_bedda.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building C object CMakeFiles/cmTC_14e6a.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_14e6a.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_14e6a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_14e6a.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_14e6a.dir/feature_tests.c.o  -o cmTC_14e6a -rdynamic 
+Building C object CMakeFiles/cmTC_bedda.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_bedda.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_bedda
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bedda.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_bedda.dir/feature_tests.c.o  -o cmTC_bedda -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -195,14 +195,14 @@ make[1]: выход из каталога «/home/vlad/programs_new/Lexical anal
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_41e93/fast"
-/usr/bin/make -f CMakeFiles/cmTC_41e93.dir/build.make CMakeFiles/cmTC_41e93.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_aa69f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_aa69f.dir/build.make CMakeFiles/cmTC_aa69f.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building C object CMakeFiles/cmTC_41e93.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_41e93.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_41e93
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41e93.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_41e93.dir/feature_tests.c.o  -o cmTC_41e93 -rdynamic 
+Building C object CMakeFiles/cmTC_aa69f.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_aa69f.dir/feature_tests.c.o   -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_aa69f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aa69f.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_aa69f.dir/feature_tests.c.o  -o cmTC_aa69f -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -213,28 +213,28 @@ make[1]: выход из каталога «/home/vlad/programs_new/Lexical anal
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_64584/fast"
-/usr/bin/make -f CMakeFiles/cmTC_64584.dir/build.make CMakeFiles/cmTC_64584.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_a71d7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a71d7.dir/build.make CMakeFiles/cmTC_a71d7.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building CXX object CMakeFiles/cmTC_64584.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_64584.dir/testCXXCompiler.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
-Linking CXX executable cmTC_64584
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_64584.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_64584.dir/testCXXCompiler.cxx.o  -o cmTC_64584 -rdynamic 
+Building CXX object CMakeFiles/cmTC_a71d7.dir/testCXXCompiler.cxx.o
+/usr/bin/c++      -o CMakeFiles/cmTC_a71d7.dir/testCXXCompiler.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
+Linking CXX executable cmTC_a71d7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a71d7.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_a71d7.dir/testCXXCompiler.cxx.o  -o cmTC_a71d7 -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_4b97b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_4b97b.dir/build.make CMakeFiles/cmTC_4b97b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_32124/fast"
+/usr/bin/make -f CMakeFiles/cmTC_32124.dir/build.make CMakeFiles/cmTC_32124.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building CXX object CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_4b97b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b97b.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4b97b -rdynamic  
+Building CXX object CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++      -o CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_32124
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32124.dir/link.txt --verbose=1
+/usr/bin/c++       -v CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_32124 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -244,8 +244,8 @@ Thread model: posix
 gcc version 5.4.1 20160904 (Ubuntu 5.4.1-2ubuntu1~16.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4b97b' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccDRBIkQ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_4b97b /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_32124' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccfU6wlO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_32124 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -253,14 +253,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_4b97b/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_4b97b.dir/build.make CMakeFiles/cmTC_4b97b.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_32124/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_32124.dir/build.make CMakeFiles/cmTC_32124.dir/build]
   ignore line: [make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»]
-  ignore line: [Building CXX object CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_4b97b]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4b97b.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4b97b -rdynamic  ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_32124]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32124.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_32124 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -270,13 +270,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 5.4.1 20160904 (Ubuntu 5.4.1-2ubuntu1~16.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4b97b' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccDRBIkQ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_4b97b /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_32124' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccfU6wlO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_32124 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccDRBIkQ.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccfU6wlO.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -294,7 +294,7 @@ Parsed CXX implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_4b97b] ==> ignore
+    arg [cmTC_32124] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -306,7 +306,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_4b97b.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_32124.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -338,14 +338,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ac44c/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ac44c.dir/build.make CMakeFiles/cmTC_ac44c.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_e7bf4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e7bf4.dir/build.make CMakeFiles/cmTC_e7bf4.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building CXX object CMakeFiles/cmTC_ac44c.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_ac44c.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_ac44c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ac44c.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_ac44c.dir/feature_tests.cxx.o  -o cmTC_ac44c -rdynamic 
+Building CXX object CMakeFiles/cmTC_e7bf4.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_e7bf4.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_e7bf4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7bf4.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_e7bf4.dir/feature_tests.cxx.o  -o cmTC_e7bf4 -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -411,14 +411,14 @@ make[1]: выход из каталога «/home/vlad/programs_new/Lexical anal
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_85bc6/fast"
-/usr/bin/make -f CMakeFiles/cmTC_85bc6.dir/build.make CMakeFiles/cmTC_85bc6.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8028c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8028c.dir/build.make CMakeFiles/cmTC_8028c.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building CXX object CMakeFiles/cmTC_85bc6.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_85bc6.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_85bc6
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85bc6.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_85bc6.dir/feature_tests.cxx.o  -o cmTC_85bc6 -rdynamic 
+Building CXX object CMakeFiles/cmTC_8028c.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_8028c.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_8028c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8028c.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_8028c.dir/feature_tests.cxx.o  -o cmTC_8028c -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 
@@ -484,14 +484,14 @@ make[1]: выход из каталога «/home/vlad/programs_new/Lexical anal
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_70681/fast"
-/usr/bin/make -f CMakeFiles/cmTC_70681.dir/build.make CMakeFiles/cmTC_70681.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_70304/fast"
+/usr/bin/make -f CMakeFiles/cmTC_70304.dir/build.make CMakeFiles/cmTC_70304.dir/build
 make[1]: вход в каталог «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
-Building CXX object CMakeFiles/cmTC_70681.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_70681.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_70681
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70681.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_70681.dir/feature_tests.cxx.o  -o cmTC_70681 -rdynamic 
+Building CXX object CMakeFiles/cmTC_70304.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_70304.dir/feature_tests.cxx.o -c "/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_70304
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70304.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_70304.dir/feature_tests.cxx.o  -o cmTC_70304 -rdynamic 
 make[1]: выход из каталога «/home/vlad/programs_new/Lexical analysis/build/CMakeFiles/CMakeTmp»
 
 

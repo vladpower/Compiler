@@ -244,6 +244,6 @@ void add_hash(string word, Keys key);
 Token_type categorize(string str, State& state);
 int find_key_word(string word);
 int get_num_separator(char ch);
-int get_num_comparison(string str); void show_lexs(vector<Lex_attributes>& recognized_lexs);
+int get_num_comparison(string str); void show_lexs(vector<Lex_attributes>& recognized_lexs, ofstream& fout);
 
 #endif
