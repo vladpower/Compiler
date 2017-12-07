@@ -29,18 +29,18 @@ int parse(vector<Lex_attributes> recognized_lexs)
             cout << "Syntax error" << endl;
             cout << "Line " << it->s_num;
             switch(ret) {
-              case -1: {
-                 cout << ": Invalid token " << it->token << endl;
-              }
-              break;
-              case undefined_ref_err: {
-                 cout << ": Undefined reference " << it->token << endl;
-              }
-              break;
-              case already_exist_err: {
-                 cout << ": Conflicting declaration " << it->token << endl;
-              }
-              break;
+                case -1: {
+                    cout << ": Invalid token " << it->token << endl;
+                }
+                break;
+                case undefined_ref_err: {
+                    cout << ": Undefined reference " << it->token << endl;
+                }
+                break;
+                case already_exist_err: {
+                    cout << ": Conflicting declaration " << it->token << endl;
+                }
+                break;
             }
 
             return -1;
@@ -267,7 +267,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
         case wrong_act: {
             int next_act;
             if(reduce_last(buf, lex, fout))
-                return parse_lex(lex,buf, fout);
+            return parse_lex(lex,buf, fout);
             next = parse_pt(get_pt(empty_pt), last + number_of_tokens, next_act);
             if(next_act == reduce_act) {
                 reduce_next(buf, next, lex, fout);
@@ -281,8 +281,8 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
         }
     }
     if(code_stack.top().var_attr.type < 0) {
-      cout << code_stack.top().var_attr.type;
-      return code_stack.top().var_attr.type;
+        cout << code_stack.top().var_attr.type;
+        return code_stack.top().var_attr.type;
     }
     return 0;
 }
@@ -458,10 +458,12 @@ void reduce_next(stack<int>& buf, int next,Lex_attributes lex,ofstream& fout)
     buf.push(next);
     Code_attributes e_code;
     if(code_stack.size() >= 1) {
-      //code_stack.top().code_str;
+        Code_attributes code_attr = get_code(next, lex, code_stack.top(), e_code );
+        code_stack.pop();
+        code_stack.push(code_attr);
     } else {
-      Code_attributes code_attr = get_code(next, lex, e_code, e_code );
-      code_stack.push(code_attr);
+        Code_attributes code_attr = get_code(next, lex, e_code, e_code );
+        code_stack.push(code_attr);
     }
 }
 
@@ -479,12 +481,12 @@ int reduce_last(stack<int>& buf,Lex_attributes lex,ofstream& fout)
             buf.pop();
             buf.push(new_next);
             if(code_stack.size()>=2) {
-              Code_attributes r_code = code_stack.top();
-              code_stack.pop();
-              Code_attributes l_code = code_stack.top();
-              code_stack.pop();
-              Code_attributes code_attr = get_code(new_next, lex, l_code, r_code );
-              code_stack.push(code_attr);
+                Code_attributes r_code = code_stack.top();
+                code_stack.pop();
+                Code_attributes l_code = code_stack.top();
+                code_stack.pop();
+                Code_attributes code_attr = get_code(new_next, lex, l_code, r_code );
+                code_stack.push(code_attr);
             }
             return 1;
         } else {
@@ -505,157 +507,225 @@ void reduce_one(stack<int>& buf, int next,Lex_attributes lex,ofstream& fout)
 
 Var_attributes find_var(string var_name)
 {
-  Var_attributes var_attr;
-  auto var_table_it = var_table.begin();
-  for(;var_table_it != var_table.end();var_table_it++) {
-    auto var_attr_it = var_table_it->find(var_name);
-    if(var_attr_it != var_table_it->end()) {
-      var_attr = var_attr_it->second;
-      break;
+    Var_attributes var_attr;
+    auto var_table_it = var_table.begin();
+    for(;var_table_it != var_table.end();var_table_it++) {
+        auto var_attr_it = var_table_it->find(var_name);
+        if(var_attr_it != var_table_it->end()) {
+            var_attr = var_attr_it->second;
+            break;
+        }
     }
-  }
-  return var_attr;
+    return var_attr;
 }
 
 Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code, Code_attributes r_code)
 {
-  static int reg_num = 0;
-  static int type_i = 0; // int,float, errors
-  static int type_u = 0; //++, --, !
-  static int temp_reg_num = 0;
-  Var_attributes var_attr;
-  Code_attributes code_attr;
-  code_attr.code_str += l_code.code_str + r_code.code_str;
-  std::cout << get_name_pt(next_pt) << '\n';
-  switch (next_pt + number_of_tokens) {
-    case block_1_pt: {
-      map<string,Var_attributes> vars;
-      var_table.push_front(vars);
-    }
-    break;
-    case block_pt: {
-      reg_num -= var_table.front().size() + temp_reg_num;
-      temp_reg_num;
-      var_table.pop_front();
-    }
-    break;
-    case id_pt: {
-      var_attr = find_var(lex.token);
-      if(var_attr.reg_num < 0) {
-        var_attr.type = undefined_ref_err;
-      }
-    }
-    break;
-    case alt_id_pt: {
-      var_attr = find_var(lex.token);
-      if(var_attr.reg_num >= 0) {
-        var_attr.type = already_exist_err;
-      }
-      reg_num++;
-      var_attr.reg_num = reg_num;
-      var_attr.type = type_i;
-      var_table.front().insert(pair<string, Var_attributes> (lex.token, var_attr));
-    }
-    break;
-    case type_pt: {
-      type_i = lex.value.i;
-    }
-    break;
-    case operand_pt: {
-      reg_num++;
-      temp_reg_num++;
-      var_attr.type = lex.token_type;
-      var_attr.reg_num = reg_num;
-      code_attr.code_str+="mov R"+to_string(reg_num)+string(",#");
-      switch(lex.token_type) {
-        case int_type: {
-          code_attr.code_str+=to_string(lex.value.i)+"d";
+    static int reg_num = 0;
+    static int type_i = 0; // int,float, errors
+    static int type_u = 0; //++, --, !
+    static int type_c = 0; // < > == !=
+    static int type_a = 0; // + -
+    static int temp_reg_num = 0;
+    Var_attributes var_attr;
+    Code_attributes code_attr;
+    code_attr.code_str += l_code.code_str + r_code.code_str;
+    std::cout << get_name_pt(next_pt) << '\n';
+    switch (next_pt + number_of_tokens) {
+        case block_1_pt: {
+            map<string,Var_attributes> vars;
+            var_table.push_front(vars);
         }
         break;
-        case float_type: {
-          code_attr.code_str+=to_string(lex.value.d)+"dd";
+        case block_pt: {
+            reg_num -= var_table.front().size() + temp_reg_num;
+            temp_reg_num;
+            var_table.pop_front();
         }
         break;
-      }
-      code_attr.code_str+='\n';
-    }
-    break;
-    case additive_exp_pt: {
-      reg_num++;
-      temp_reg_num++;
-      var_attr.reg_num = reg_num;
-      code_attr.code_str+=string("add R") + to_string(l_code.var_attr.reg_num);
-      code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num);
-      code_attr.code_str+=" R"+ to_string(reg_num)+'\n';
-    }
-    break;
-    case var_init_pt:
-    case statement_exp_pt: {
-      code_attr.code_str+=string("mov R") + to_string(l_code.var_attr.reg_num);
-      code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num)+'\n';
-    }
-    break;
-    case unary_op_pt: {
-      type_u = lex.value.i;
-    }
-    break;
-    case unary_exp_pt: {
-      switch(type_u) {
-        case plus_plus_val: {
-          var_attr.reg_num = r_code.var_attr.reg_num;
-          code_attr.code_str+=string("add R") + to_string(r_code.var_attr.reg_num);
-          code_attr.code_str+=",#1";
-          code_attr.code_str+=" R"+ to_string(r_code.var_attr.reg_num)+'\n';
+        case id_pt: {
+            var_attr = find_var(lex.token);
+            if(var_attr.reg_num < 0) {
+                var_attr.type = undefined_ref_err;
+            }
         }
         break;
-        case minus_minus_val: {
-          var_attr.reg_num = r_code.var_attr.reg_num;
-          code_attr.code_str+=string("add R") + to_string(r_code.var_attr.reg_num);
-          code_attr.code_str+=",#-1";
-          code_attr.code_str+=" R"+ to_string(r_code.var_attr.reg_num)+'\n';
+        case alt_id_pt: {
+            var_attr = find_var(lex.token);
+            if(var_attr.reg_num >= 0) {
+                var_attr.type = already_exist_err;
+            }
+            reg_num++;
+            var_attr.reg_num = reg_num;
+            var_attr.type = type_i;
+            var_table.front().insert(pair<string, Var_attributes> (lex.token, var_attr));
         }
         break;
-        case exclamation_val: {
-          reg_num++;
-          temp_reg_num++;
-          var_attr.reg_num = reg_num;
+        case type_pt: {
+            type_i = lex.value.i;
         }
         break;
-      }
+        case operand_pt: {
+            if(l_code.var_attr.reg_num<=0) {
+                reg_num++;
+                temp_reg_num++;
+                var_attr.type = lex.token_type;
+                var_attr.reg_num = reg_num;
+                code_attr.code_str+="mov R"+to_string(reg_num)+string(",#");
+                switch(lex.token_type) {
+                    case int_type: {
+                        code_attr.code_str+=to_string(lex.value.i)+"d";
+                    }
+                    break;
+                    case float_type: {
+                        code_attr.code_str+=to_string(lex.value.d)+"dd";
+                    }
+                    break;
+                }
+                code_attr.code_str+='\n';
+            } else {
+                var_attr.reg_num = l_code.var_attr.reg_num;
+                var_attr.type = l_code.var_attr.type;
+            }
+        }
+        break;
+        case additive_op_pt: {
+            type_a = lex.value.i;
+            var_attr.reg_num = l_code.var_attr.reg_num;
+        }
+        break;
+        case additive_exp_pt: {
+            if(r_code.var_attr.reg_num > 0) {
+                reg_num++;
+                temp_reg_num++;
+                var_attr.reg_num = reg_num;
+                if(type_a==plus_val) {
+                    code_attr.code_str+=string("add R");
+                } else {
+                    code_attr.code_str+=string("sub R");
+                }
+                code_attr.code_str+=to_string(l_code.var_attr.reg_num);
+                code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num);
+                code_attr.code_str+=" R"+ to_string(reg_num)+'\n';
+            } else {
+                var_attr.reg_num = l_code.var_attr.reg_num;
+                var_attr.type = l_code.var_attr.type;
+            }
+        }
+        break;
+        case var_init_pt:
+        case statement_exp_pt: {
+            var_attr.reg_num = reg_num;
+            if(r_code.var_attr.reg_num>0) {
+                code_attr.code_str+=string("mov R") + to_string(l_code.var_attr.reg_num);
+                code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num)+'\n';
+            }
+        }
+        break;
+        case unary_op_pt: {
+            type_u = lex.value.i;
+        }
+        break;
+        case unary_exp_pt: {
+            if(r_code.var_attr.reg_num > 0) {
+                if(type_u == exclamation_val) {
+                    reg_num++;
+                    temp_reg_num++;
+                    var_attr.reg_num = reg_num;
+                } else {
+                    var_attr.reg_num = r_code.var_attr.reg_num;
+                    if(type_u == plus_plus_val) {
+                        code_attr.code_str+=string("add R");
+                    } else {
+                        code_attr.code_str+=string("sub R");
+                    }
+                    code_attr.code_str+=to_string(r_code.var_attr.reg_num);
+                    code_attr.code_str+=",#1";
+                    code_attr.code_str+=" R"+ to_string(r_code.var_attr.reg_num)+'\n';
+                }
+            } else {
+                var_attr.reg_num = l_code.var_attr.reg_num;
+                var_attr.type = l_code.var_attr.type;
+            }
+        }
+        break;
+        case log_op_pt: {
+            type_c = lex.value.i;
+            var_attr.reg_num = l_code.var_attr.reg_num;
+        }
+        break;
+        case log_exp_pt: {
+            if(r_code.var_attr.reg_num > 0) {
+                reg_num++;
+                temp_reg_num++;
+                var_attr.reg_num = reg_num;
+                code_attr.code_str+=string("cmp R") + to_string(l_code.var_attr.reg_num);
+                code_attr.code_str+=string(",R") + to_string(r_code.var_attr.reg_num) + '\n';
+                string s_1,s_0;
+                switch (type_c) {
+                    case more_val: {
+                        s_1 = "am R";
+                        s_0 = "nm R";
+                    }
+                    break;
+                    case less_val: {
+                        s_1 = "al R";
+                        s_0 = "nl R";
+                    }
+                    break;
+                    case equal_val: {
+                        s_1 = "ae R";
+                        s_0 = "ane R";
+                    }
+                    break;
+                    case not_equal_val: {
+                        s_1 = "ane R";
+                        s_0 = "ae R";
+                    }
+                    break;
+                }
+                code_attr.code_str+= s_1 + to_string(reg_num);
+                code_attr.code_str+= string(",#1\n");
+                code_attr.code_str+= s_0 + to_string(reg_num);
+                code_attr.code_str+= string(",#0\n");
+            } else {
+                var_attr.reg_num = l_code.var_attr.reg_num;
+                var_attr.type = l_code.var_attr.type;
+            }
+        }
+        break;
+        default: {
+            var_attr.reg_num = l_code.var_attr.reg_num;
+            var_attr.type = l_code.var_attr.type;
+        }
+        break;
     }
-    break;
-    case
-    default: {
-      var_attr.reg_num = l_code.var_attr.reg_num;
-    }
-    break;
-  }
-  code_attr.var_attr = var_attr;
-  cout << code_attr.code_str<<endl;
-  return code_attr;
+    code_attr.var_attr = var_attr;
+    cout << code_attr.code_str<<endl;
+    return code_attr;
 }
 
 Var_attributes::Var_attributes(int reg_num, int type)
 {
-  this->reg_num = reg_num;
-  this->type = type;
+    this->reg_num = reg_num;
+    this->type = type;
 }
 
 Var_attributes::Var_attributes()
 {
-  this->reg_num = -1;
-  this->type = 0;
+    this->reg_num = -1;
+    this->type = 0;
 }
 
 Code_attributes::Code_attributes(Var_attributes var_attr, string code_str)
 {
-  this->var_attr = var_attr;
-  this->code_str = code_str;
+    this->var_attr = var_attr;
+    this->code_str = code_str;
 }
 
 Code_attributes::Code_attributes()
 {
-  Var_attributes var_attr;
-  this->var_attr = var_attr;
-  this->code_str = "";
+    Var_attributes var_attr;
+    this->var_attr = var_attr;
+    this->code_str = "";
 }
