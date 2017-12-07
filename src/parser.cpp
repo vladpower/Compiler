@@ -71,6 +71,7 @@ void init_parser_machine()
     parser_machine.add_branch(get_pt(empty_pt), unary_exp_pt, get_pt(additive_exp_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), additive_exp_pt, get_pt(log_exp_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), log_exp_pt, get_pt(expression_pt), reduce_act);
+    parser_machine.add_branch(get_pt(empty_pt), if_5_pt, get_pt(if_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), if_pt, get_pt(statement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), else_pt, get_pt(statement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), for_pt, get_pt(statement_pt), reduce_act);
@@ -133,8 +134,8 @@ void init_parser_machine()
     parser_machine.add_branch(get_pt(if_3_pt), separator_type, get_pt(error_pt), separator_act); // )
     add_default_shifts(if_4_pt);
     parser_machine.add_branch(get_pt(if_4_pt), reserved_type, get_pt(error_pt), shift_act);
-    parser_machine.add_branch(get_pt(if_4_pt), statement_pt, get_pt(if_pt), reduce_act);
-    parser_machine.add_branch(get_pt(if_pt), reserved_type, get_pt(error_pt), resword_act);
+    parser_machine.add_branch(get_pt(if_4_pt), statement_pt, get_pt(if_5_pt), reduce_act);
+    parser_machine.add_branch(get_pt(if_5_pt), reserved_type, get_pt(error_pt), resword_act);
     add_default_shifts(else_1_pt);
     parser_machine.add_branch(get_pt(else_1_pt), reserved_type, get_pt(error_pt), shift_act);
     parser_machine.add_branch(get_pt(else_1_pt), statement_pt, get_pt(else_pt), reduce_act);
@@ -185,7 +186,7 @@ State_machine resword_pars_machine(get_pt(number_of_pars),number_of_keys, wrong_
 void init_resword_pars_machine()
 {
     resword_pars_machine.add_branch(get_pt(empty_pt), if_key, get_pt(if_1_pt), reduce_act);
-    resword_pars_machine.add_branch(get_pt(if_pt), else_key, get_pt(else_1_pt), reduce_act);
+    resword_pars_machine.add_branch(get_pt(if_5_pt), else_key, get_pt(else_1_pt), reduce_act);
     resword_pars_machine.add_branch(get_pt(empty_pt), bool_key, get_pt(type_pt), reduce_act);
     resword_pars_machine.add_branch(get_pt(empty_pt), int_key, get_pt(type_pt), reduce_act);
     resword_pars_machine.add_branch(get_pt(empty_pt), double_key, get_pt(type_pt), reduce_act);
@@ -526,10 +527,24 @@ Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code
     static int type_u = 0; //++, --, !
     static int type_c = 0; // < > == !=
     static int type_a = 0; // + -
+    static int type_e = 0; // && ||
     static int temp_reg_num = 0;
+    static int label_num = 0;
+    static stack<int> loop_front_label;
+    static stack<int> loop_back_label;
+    static Code_attributes for_opt;
     Var_attributes var_attr;
     Code_attributes code_attr;
-    code_attr.code_str += l_code.code_str + r_code.code_str;
+    switch (next_pt + number_of_tokens) {
+        case if_5_pt:
+        case else_pt:
+        case while_pt:
+        case for_7_pt:
+        break;
+        default: {
+            code_attr.code_str += l_code.code_str + r_code.code_str;
+        }
+    }
     std::cout << get_name_pt(next_pt) << '\n';
     switch (next_pt + number_of_tokens) {
         case block_1_pt: {
@@ -574,11 +589,11 @@ Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code
                 code_attr.code_str+="mov R"+to_string(reg_num)+string(",#");
                 switch(lex.token_type) {
                     case int_type: {
-                        code_attr.code_str+=to_string(lex.value.i)+"d";
+                        code_attr.code_str+=to_string(lex.value.i);
                     }
                     break;
                     case float_type: {
-                        code_attr.code_str+=to_string(lex.value.d)+"dd";
+                        code_attr.code_str+=to_string(lex.value.d)+"f";
                     }
                     break;
                 }
@@ -692,6 +707,122 @@ Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code
                 var_attr.reg_num = l_code.var_attr.reg_num;
                 var_attr.type = l_code.var_attr.type;
             }
+        }
+        break;
+        case expression_op_pt: {
+            type_e = lex.value.i;
+            var_attr.reg_num = l_code.var_attr.reg_num;
+        }
+        break;
+        case expression_pt: {
+            if(r_code.var_attr.reg_num > 0) {
+                reg_num++;
+                temp_reg_num++;
+                var_attr.reg_num = reg_num;
+                switch (type_e) {
+                    case and_val: {
+                        code_attr.code_str+=string("and R");
+                    }
+                    break;
+                    case or_val: {
+                        code_attr.code_str+=string("or R");
+                    }
+                    break;
+                }
+                code_attr.code_str+=to_string(l_code.var_attr.reg_num);
+                code_attr.code_str+=string(",R") + to_string(r_code.var_attr.reg_num);
+                code_attr.code_str+=string(" R") + to_string(reg_num)+'\n';
+            } else {
+                var_attr.reg_num = l_code.var_attr.reg_num;
+                var_attr.type = l_code.var_attr.type;
+            }
+        }
+        break;
+        case if_3_pt: {
+            var_attr.reg_num = r_code.var_attr.reg_num;
+            var_attr.type = r_code.var_attr.type;
+        }
+        break;
+        case if_5_pt: {
+            label_num+=3;
+            code_attr.code_str+=l_code.code_str;
+            code_attr.code_str+=string("cmp R") + to_string(l_code.var_attr.reg_num);
+            code_attr.code_str+=string(",#0") + '\n';
+            code_attr.code_str+=string("ane goto M") + to_string(label_num-2) + '\n';
+            code_attr.code_str+=string("ae goto M") + to_string(label_num-1) + '\n';
+            code_attr.code_str+=string("M") + to_string(label_num-2) + ":\n";
+            code_attr.code_str+=r_code.code_str;
+            code_attr.code_str+=string("jmp M") + to_string(label_num) + '\n';
+
+        }
+        break;
+        case if_pt: {
+            code_attr.code_str+=string("M") + to_string(label_num-1) + ":\n";
+            code_attr.code_str+=string("M") + to_string(label_num) + ":\n";
+
+        }
+        break;
+        case else_pt: {
+            code_attr.code_str+=l_code.code_str;
+            code_attr.code_str+=string("M") + to_string(label_num-1) + ":\n";
+            code_attr.code_str+=r_code.code_str;
+            code_attr.code_str+=string("M") + to_string(label_num) + ":\n";
+        }
+        break;
+        case while_3_pt: {
+            label_num+=2;
+            loop_front_label.push(label_num-1);
+            loop_back_label.push(label_num);
+            var_attr.reg_num = r_code.var_attr.reg_num;
+            var_attr.type = r_code.var_attr.type;
+        }
+        break;
+        case while_pt: {
+            int l_num = loop_back_label.top();
+            code_attr.code_str+=l_code.code_str;
+            code_attr.code_str+=string("M") + to_string(l_num-1) + ":\n";
+            code_attr.code_str+=string("cmp R") + to_string(l_code.var_attr.reg_num);
+            code_attr.code_str+=string(",#0") + '\n';
+            code_attr.code_str+=string("ae goto M") + to_string(l_num) + '\n';
+            code_attr.code_str+=r_code.code_str;
+            code_attr.code_str+=string("jmp M") + to_string(l_num-1) + '\n';
+            code_attr.code_str+=string("M") + to_string(l_num) + ":\n";
+            loop_front_label.pop();
+            loop_back_label.pop();
+        }
+        break;
+        case for_5_pt: {
+            label_num+=3;
+            loop_front_label.push(label_num-1);
+            loop_back_label.push(label_num);
+            code_attr.code_str+=string("M") + to_string(label_num-2) + ":\n";
+            code_attr.code_str+=string("cmp R") + to_string(r_code.var_attr.reg_num);
+            code_attr.code_str+=string(",#0") + '\n';
+            code_attr.code_str+=string("ae goto M") + to_string(label_num) + '\n';
+        }
+        break;
+        case for_7_pt: {
+            code_attr.code_str+=l_code.code_str;
+            for_opt = r_code;
+        }
+        break;
+        case for_pt: {
+            int l_num = loop_back_label.top();
+            code_attr.code_str+=string("M") + to_string(l_num-1) + ":\n";
+            code_attr.code_str+=for_opt.code_str;
+            code_attr.code_str+=string("jmp M") + to_string(l_num-2) + '\n';
+            code_attr.code_str+=string("M") + to_string(l_num) + ":\n";
+            loop_front_label.pop();
+            loop_back_label.pop();
+
+        }
+        break;
+        case continue_pt: {
+            code_attr.code_str+=string("jmp M") + to_string(loop_front_label.top()) + "\n";
+        }
+        break;
+        case break_pt: {
+            code_attr.code_str+=string("jmp M") + to_string(loop_back_label.top()) + "\n";
         }
         break;
         default: {

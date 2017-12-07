@@ -66,6 +66,7 @@ enum Parser_nonterminals {
     if_2_pt,
     if_3_pt,
     if_4_pt,
+    if_5_pt,
     if_pt,
     else_1_pt,
     else_pt,

@@ -1,6 +1,7 @@
-int a = 0;
-int b;
-b = 2+a;
-++a;
---b;
-a==b!=a;
+int n = 5;
+for(int i=0;i<n;++i) {
+    continue;
+    while(5) {
+        break;
+    }
+}
