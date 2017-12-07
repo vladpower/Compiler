@@ -1,5 +1,5 @@
-for(int a=0; a<b;++a);
-while(a) {
-break;
-continue;
-}
+int a = 0;
+int b;
+b = 2+a;
+++a;
+--b;

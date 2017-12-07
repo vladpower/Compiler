@@ -1,6 +1,12 @@
 #include "parser.h"
 #include <iostream>
+#include <map>
+#include <list>
+#include <string>
 
+
+list<map<string, Var_attributes> > var_table;
+stack<Code_attributes> code_stack;
 
 int parse(vector<Lex_attributes> recognized_lexs)
 {
@@ -15,17 +21,36 @@ int parse(vector<Lex_attributes> recognized_lexs)
     vector<Lex_attributes>::iterator it;
     ofstream fout;
     fout.open ("syntax.log");
+    map<string, Var_attributes>  vars;
+    var_table.push_back(vars);
     for(it = recognized_lexs.begin();it!=recognized_lexs.end();it++) {
-        if(parse_lex(*it, buf,fout)<0) {
+        int ret = parse_lex(*it, buf,fout);
+        if(ret < 0) {
             cout << "Syntax error" << endl;
-            cout << "Line " << it->s_num << ": Invalid token " << it->token << endl;
+            cout << "Line " << it->s_num;
+            switch(ret) {
+              case -1: {
+                 cout << ": Invalid token " << it->token << endl;
+              }
+              break;
+              case undefined_ref_err: {
+                 cout << ": Undefined reference " << it->token << endl;
+              }
+              break;
+              case already_exist_err: {
+                 cout << ": Conflicting declaration " << it->token << endl;
+              }
+              break;
+            }
+
             return -1;
         }
     }
     if(buf.size() == 1 && buf.top() == get_pt(statements_pt)) {
         cout << "Syntax right" << endl;
     } else {
-        cout << "Syntax error " << buf.size() <<' '<< buf.top() << endl;
+        cout << "Syntax error"<<endl;
+        cout << "Invalid end of file!"<< endl;
     }
     return 0;
 }
@@ -54,6 +79,7 @@ void init_parser_machine()
     parser_machine.add_branch(get_pt(empty_pt), local_var_decl_pt, get_pt(for_opt_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), for_opt_pt, get_pt(prestatement_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), var_init_pt, get_pt(var_list_pt), reduce_act);
+    parser_machine.add_branch(get_pt(empty_pt), expression_pt, get_pt(statement_exp_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), statement_exp_pt, get_pt(for_opt_pt), reduce_act);
     parser_machine.add_branch(get_pt(empty_pt), statement_pt, get_pt(statements_pt), reduce_act);
 
@@ -214,15 +240,15 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
     //cout << "act " << act << " last " << buf.top() << " token " << token_type << " next " << next << endl;
     switch (act) {
         case reduce_act: {
-            reduce_next(buf, next,fout);
-            reduce_last(buf,fout);
+            reduce_next(buf, next,lex,fout);
+            reduce_last(buf,lex,fout);
         }
         break;
         case shift_act: {
             int next_act;
             next = parse_pt(get_pt(empty_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                reduce_one(buf,next,fout);
+                reduce_one(buf,next,lex,fout);
             } else {
                 return -1;
             }
@@ -232,7 +258,7 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
             int next_act;
             next = parse_pt(get_pt(alt_pt) ,token_type, next_act,token_val);
             if(next_act == reduce_act) {
-                reduce_one(buf,next,fout);
+                reduce_one(buf,next,lex,fout);
             } else {
                 return -1;
             }
@@ -240,11 +266,11 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
         break;
         case wrong_act: {
             int next_act;
-            if(reduce_last(buf,fout))
+            if(reduce_last(buf, lex, fout))
                 return parse_lex(lex,buf, fout);
             next = parse_pt(get_pt(empty_pt), last + number_of_tokens, next_act);
             if(next_act == reduce_act) {
-                reduce_next(buf, next,fout);
+                reduce_next(buf, next, lex, fout);
                 return parse_lex(lex,buf, fout);
             } else {
                 return -1;
@@ -254,9 +280,11 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
 
         }
     }
+    if(code_stack.top().var_attr.type < 0) {
+      cout << code_stack.top().var_attr.type;
+      return code_stack.top().var_attr.type;
+    }
     return 0;
-
-
 }
 
 int parse_pt(int last, int pt, int& act, int val_lex)
@@ -423,14 +451,21 @@ string get_name_pt(int pt)
     }
 }
 
-void reduce_next(stack<int>& buf, int next,ofstream& fout)
+void reduce_next(stack<int>& buf, int next,Lex_attributes lex,ofstream& fout)
 {
     fout<<"pop \t"<<get_name_pt(buf.top())<<"\t push \t"<<get_name_pt(next)<<endl;
     buf.pop();
     buf.push(next);
+    Code_attributes e_code;
+    if(code_stack.size() >= 1) {
+      //code_stack.top().code_str;
+    } else {
+      Code_attributes code_attr = get_code(next, lex, e_code, e_code );
+      code_stack.push(code_attr);
+    }
 }
 
-int reduce_last(stack<int>& buf,ofstream& fout)
+int reduce_last(stack<int>& buf,Lex_attributes lex,ofstream& fout)
 {
     if(buf.size()>=2) {
         int next_act;
@@ -443,6 +478,14 @@ int reduce_last(stack<int>& buf,ofstream& fout)
             fout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<",\t push \t"<<get_name_pt(new_next)<<endl;
             buf.pop();
             buf.push(new_next);
+            if(code_stack.size()>=2) {
+              Code_attributes r_code = code_stack.top();
+              code_stack.pop();
+              Code_attributes l_code = code_stack.top();
+              code_stack.pop();
+              Code_attributes code_attr = get_code(new_next, lex, l_code, r_code );
+              code_stack.push(code_attr);
+            }
             return 1;
         } else {
             buf.push(last);
@@ -451,8 +494,168 @@ int reduce_last(stack<int>& buf,ofstream& fout)
     }
 }
 
-void reduce_one(stack<int>& buf, int next,ofstream& fout)
+void reduce_one(stack<int>& buf, int next,Lex_attributes lex,ofstream& fout)
 {
     fout<<"push \t"<<get_name_pt(next)<<endl;
     buf.push(next);
+    Code_attributes e_code;
+    Code_attributes code_attr = get_code(next, lex, e_code, e_code );
+    code_stack.push(code_attr);
+}
+
+Var_attributes find_var(string var_name)
+{
+  Var_attributes var_attr;
+  auto var_table_it = var_table.begin();
+  for(;var_table_it != var_table.end();var_table_it++) {
+    auto var_attr_it = var_table_it->find(var_name);
+    if(var_attr_it != var_table_it->end()) {
+      var_attr = var_attr_it->second;
+      break;
+    }
+  }
+  return var_attr;
+}
+
+Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code, Code_attributes r_code)
+{
+  static int reg_num = 0;
+  static int type_i = 0; // int,float, errors
+  static int type_u = 0; //++, --, !
+  static int temp_reg_num = 0;
+  Var_attributes var_attr;
+  Code_attributes code_attr;
+  code_attr.code_str += l_code.code_str + r_code.code_str;
+  std::cout << get_name_pt(next_pt) << '\n';
+  switch (next_pt + number_of_tokens) {
+    case block_1_pt: {
+      map<string,Var_attributes> vars;
+      var_table.push_front(vars);
+    }
+    break;
+    case block_pt: {
+      reg_num -= var_table.front().size() + temp_reg_num;
+      temp_reg_num;
+      var_table.pop_front();
+    }
+    break;
+    case id_pt: {
+      var_attr = find_var(lex.token);
+      if(var_attr.reg_num < 0) {
+        var_attr.type = undefined_ref_err;
+      }
+    }
+    break;
+    case alt_id_pt: {
+      var_attr = find_var(lex.token);
+      if(var_attr.reg_num >= 0) {
+        var_attr.type = already_exist_err;
+      }
+      reg_num++;
+      var_attr.reg_num = reg_num;
+      var_attr.type = type_i;
+      var_table.front().insert(pair<string, Var_attributes> (lex.token, var_attr));
+    }
+    break;
+    case type_pt: {
+      type_i = lex.value.i;
+    }
+    break;
+    case operand_pt: {
+      reg_num++;
+      temp_reg_num++;
+      var_attr.type = lex.token_type;
+      var_attr.reg_num = reg_num;
+      code_attr.code_str+="mov R"+to_string(reg_num)+string(",#");
+      switch(lex.token_type) {
+        case int_type: {
+          code_attr.code_str+=to_string(lex.value.i)+"d";
+        }
+        break;
+        case float_type: {
+          code_attr.code_str+=to_string(lex.value.d)+"dd";
+        }
+        break;
+      }
+      code_attr.code_str+='\n';
+    }
+    break;
+    case additive_exp_pt: {
+      reg_num++;
+      temp_reg_num++;
+      var_attr.reg_num = reg_num;
+      code_attr.code_str+=string("add R") + to_string(l_code.var_attr.reg_num);
+      code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num);
+      code_attr.code_str+=" R"+ to_string(reg_num)+'\n';
+    }
+    break;
+    case var_init_pt:
+    case statement_exp_pt: {
+      code_attr.code_str+=string("mov R") + to_string(l_code.var_attr.reg_num);
+      code_attr.code_str+=",R" + to_string(r_code.var_attr.reg_num)+'\n';
+    }
+    break;
+    case unary_op_pt: {
+      type_u = lex.value.i;
+    }
+    break;
+    case unary_exp_pt: {
+      switch(type_u) {
+        case plus_plus_val: {
+          var_attr.reg_num = r_code.var_attr.reg_num;
+          code_attr.code_str+=string("add R") + to_string(r_code.var_attr.reg_num);
+          code_attr.code_str+=",#1";
+          code_attr.code_str+=" R"+ to_string(r_code.var_attr.reg_num)+'\n';
+        }
+        break;
+        case minus_minus_val: {
+          var_attr.reg_num = r_code.var_attr.reg_num;
+          code_attr.code_str+=string("add R") + to_string(r_code.var_attr.reg_num);
+          code_attr.code_str+=",#-1";
+          code_attr.code_str+=" R"+ to_string(r_code.var_attr.reg_num)+'\n';
+        }
+        break;
+        case exclamation_val: {
+          reg_num++;
+          temp_reg_num++;
+          var_attr.reg_num = reg_num;
+        }
+        break;
+      }
+    }
+    break;
+    case
+    default: {
+      var_attr.reg_num = l_code.var_attr.reg_num;
+    }
+    break;
+  }
+  code_attr.var_attr = var_attr;
+  cout << code_attr.code_str<<endl;
+  return code_attr;
+}
+
+Var_attributes::Var_attributes(int reg_num, int type)
+{
+  this->reg_num = reg_num;
+  this->type = type;
+}
+
+Var_attributes::Var_attributes()
+{
+  this->reg_num = -1;
+  this->type = 0;
+}
+
+Code_attributes::Code_attributes(Var_attributes var_attr, string code_str)
+{
+  this->var_attr = var_attr;
+  this->code_str = code_str;
+}
+
+Code_attributes::Code_attributes()
+{
+  Var_attributes var_attr;
+  this->var_attr = var_attr;
+  this->code_str = "";
 }

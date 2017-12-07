@@ -5,15 +5,32 @@
 #include <fstream>
 using namespace std;
 
+struct Var_attributes
+{
+  Var_attributes();
+  Var_attributes(int reg_num, int type);
+  int reg_num;
+  int type;
+};
+
+struct Code_attributes
+{
+  Code_attributes();
+  Code_attributes(Var_attributes var_attr, string code_str);
+  Var_attributes var_attr;
+  string code_str;
+};
+
 int parse(vector<Lex_attributes> recognized_lexs);
 string get_name_pt(int pt);
 void add_default_shifts(int pt);
 int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout);
 int parse_pt(int last, int next, int& act, int val_lex = 0);
 int get_pt(int type);
-void reduce_next(stack<int>& buf, int next,ofstream& fout);
-int reduce_last(stack<int>& buf,ofstream& fout);
-void reduce_one(stack<int>& buf, int next,ofstream& fout);
+void reduce_next(stack<int>& buf, int next,Lex_attributes lex, ofstream& fout);
+int reduce_last(stack<int>& buf,Lex_attributes lex,ofstream& fout);
+void reduce_one(stack<int>& buf, int next,Lex_attributes lex,ofstream& fout);
+Var_attributes  find_var(string var_name);
 
 void init_parser_machine();
 void init_resword_pars_machine();
@@ -76,5 +93,12 @@ enum Parser_nonterminals {
     number_of_pars
 };
 
+enum Error_codes {
+  undefined_ref_err = -99,
+  already_exist_err
+};
+
+
+Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code, Code_attributes r_code);
 
 #endif
