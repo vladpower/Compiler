@@ -26,19 +26,24 @@ int parse(vector<Lex_attributes> recognized_lexs)
     for(it = recognized_lexs.begin();it!=recognized_lexs.end();it++) {
         int ret = parse_lex(*it, buf,fout);
         if(ret < 0) {
-            cout << "Syntax error" << endl;
-            cout << "Line " << it->s_num;
+
             switch(ret) {
                 case -1: {
-                    cout << ": Invalid token " << it->token << endl;
+                    cout << "Syntax error" << endl;
+                    cout << "Line " << it->s_num;
+                    cerr << ": Invalid token " << it->token << endl;
                 }
                 break;
                 case undefined_ref_err: {
-                    cout << ": Undefined reference " << it->token << endl;
+                    cerr << "Semantic error" << endl;
+                    cerr << "Line " << it->s_num;
+                    cerr << ": Undefined reference " << it->token << endl;
                 }
                 break;
                 case already_exist_err: {
-                    cout << ": Conflicting declaration " << it->token << endl;
+                    cerr << "Semantic error" << endl;
+                    cerr << "Line " << it->s_num;
+                    cerr << ": Conflicting declaration " << it->token << endl;
                 }
                 break;
             }
@@ -47,10 +52,14 @@ int parse(vector<Lex_attributes> recognized_lexs)
         }
     }
     if(buf.size() == 1 && buf.top() == get_pt(statements_pt)) {
-        cout << "Syntax right" << endl;
+        cout << "Compilation completed successfuly." << endl;
+        ofstream code_out;
+        code_out.open ("code.asm");
+        code_out << code_stack.top().code_str;
+
     } else {
-        cout << "Syntax error"<<endl;
-        cout << "Invalid end of file!"<< endl;
+        cerr << "Syntax error."<<endl;
+        cerr << "Invalid end of file!"<< endl;
     }
     return 0;
 }
@@ -282,7 +291,6 @@ int parse_lex(Lex_attributes lex,stack<int>& buf, ofstream& fout)
         }
     }
     if(code_stack.top().var_attr.type < 0) {
-        cout << code_stack.top().var_attr.type;
         return code_stack.top().var_attr.type;
     }
     return 0;
@@ -476,7 +484,6 @@ int reduce_last(stack<int>& buf,Lex_attributes lex,ofstream& fout)
         buf.pop();
         int penult = buf.top();
         int new_next = parse_pt(penult ,last + number_of_tokens, next_act);
-        //cout << "act " << next_act << " last " << penult << " pt " << last << " next " << next << endl;
         if(next_act == reduce_act && new_next != error_pt) {
             fout<<"pop \t"<<get_name_pt(penult)<<"\t pop \t"<<get_name_pt(last)<<",\t push \t"<<get_name_pt(new_next)<<endl;
             buf.pop();
@@ -545,7 +552,6 @@ Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code
             code_attr.code_str += l_code.code_str + r_code.code_str;
         }
     }
-    std::cout << get_name_pt(next_pt) << '\n';
     switch (next_pt + number_of_tokens) {
         case block_1_pt: {
             map<string,Var_attributes> vars;
@@ -832,7 +838,6 @@ Code_attributes get_code(int next_pt, Lex_attributes lex, Code_attributes l_code
         break;
     }
     code_attr.var_attr = var_attr;
-    cout << code_attr.code_str<<endl;
     return code_attr;
 }
 

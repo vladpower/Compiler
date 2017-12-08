@@ -22,6 +22,7 @@ int analyze(char* fname)
     while (fin >> noskipws >> ch) {
         Symbol smb(ch);
         if(recognize(smb, recognized_lexs) < 0) {
+            cerr<<"Lexical error."<<endl;
             cerr << "Line "<<recognized_lexs.back().s_num<<": Invalid character "<< smb.ch << endl;
             return 0;
         }
