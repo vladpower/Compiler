@@ -6,4 +6,4 @@ cd build
 cmake ..  
 make  
 Запуск:  
-./Compiler ../input.txt  
+./compiler ../input.txt  
